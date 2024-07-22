@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <img
-                        src="../../public/assets/img.png"
+                        src="/public/assets/img.png"
                         className="h-14 sm:h-8 md:h-10 lg:h-12 xl:h-16"
                         alt="asd"/>
                     <span
