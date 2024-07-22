@@ -26,7 +26,7 @@ const Main = () => {
                     <Spacer y={6}/>
                 </div>
                 <img
-                    src="../../public/assets/img_phones.png"
+                    src="/assets/img_phones.png"
                     className="h-18 sm:h-8 md:h-10 lg:h-12 xl:h-96"
                     alt="asd"/>
 
