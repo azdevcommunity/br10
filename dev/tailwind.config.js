@@ -12,6 +12,21 @@ export default {
     darkMode: 'class',
     theme: {
         extend: {
+            animation: {
+                'spin-words': 'spinWords 6s infinite',
+            },
+            keyframes: {
+                spinWords: {
+                    '10%': {transform: 'translateY(-112%)'},
+                    '25%': {transform: 'translateY(-100%)'},
+                    '35%': {transform: 'translateY(-212%)'},
+                    '50%': {transform: 'translateY(-200%)'},
+                    '60%': {transform: 'translateY(-312%)'},
+                    '75%': {transform: 'translateY(-300%)'},
+                    '85%': {transform: 'translateY(-412%)'},
+                    '100%': {transform: 'translateY(-400%)'}
+                }
+            },
             colors: {
                 customTeal: '#1e5a4c', // Add custom teal color
             },
