@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-Regular.otf") format("truetype");
+        font-weight: normal;
+    }
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-RegularItalic.otf") format("truetype");
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-Light.otf") format("truetype");
+        font-weight: 300;
+    }
+
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-Bold.otf") format("truetype");
+        font-weight: bold;
+    }
+
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-Thin.otf") format("truetype");
+        font-weight: 100;
+    }
+
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-Medium.otf") format("truetype");
+        font-weight: 500;
+    }
+
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-Black.otf") format("truetype");
+        font-weight: 800;
+    }
+}
+
+* {
+
+    outline: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "SF Pro", sans-serif;
+
+}
