@@ -43,6 +43,12 @@
         url("./fonts/SF-Pro-Display-Medium.otf") format("truetype");
         font-weight: 500;
     }
+    @font-face {
+        font-family: "SF Pro";
+        src: local("SF Pro"),
+        url("./fonts/SF-Pro-Display-Semibold.otf") format("truetype");
+        font-weight: 600;
+    }
 
     @font-face {
         font-family: "SF Pro";
