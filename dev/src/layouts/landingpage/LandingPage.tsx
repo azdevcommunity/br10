@@ -16,7 +16,7 @@ const LandingPage = () => {
         <div className="flex flex-col min-h-screen">
             <HomePage/>
             <AboutUs/>
-            {/*<FeaturesPage/>*/}
+            <FeaturesPage/>
             <Footer/>
         </div>
     );

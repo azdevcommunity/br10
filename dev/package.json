@@ -25,8 +25,10 @@
     "react-loader-spinner": "^6.1.6",
     "react-resizable": "^3.0.5",
     "react-router-dom": "^6.23.0",
+    "react-slick": "^0.30.2",
     "react-transition-group": "^4.4.5",
     "react-type-animation": "^3.2.0",
+    "slick-carousel": "^1.8.1",
     "sql-autocomplete": "^1.1.1"
   },
   "devDependencies": {

@@ -1,40 +1,32 @@
 import RotatingWords from "../../components/RotatingWords.tsx";
-import {Spacer, Switch} from "@nextui-org/react";
-import React, {useContext} from "react";
-import {ThemeContext} from "../../ThemeContext.tsx";
+import { Spacer, Switch } from "@nextui-org/react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../ThemeContext.tsx";
 
-export const HomePage = () => {
+export const HomePage: React.FC = () => {
+    const { setLightTheme, setDarkTheme } = useContext(ThemeContext);
 
-    const {setLightTheme, setDarkTheme} = useContext(ThemeContext);
-
-    const changeThemeSwitch = (e) => {
+    const changeThemeSwitch = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-            setDarkTheme()
+            setDarkTheme();
         } else {
-            setLightTheme()
+            setLightTheme();
         }
-    }
-    return (
-        <div className="flex-grow flex md:flex-row flex-col justify-evenly items-center  h-screen">
-            <div className="font-bold text-3xl">
-                {/*<TypeAnimation*/}
-                {/*    sequence={[*/}
-                {/*        `Sadə və sürətli\n rezervasiya!`,*/}
-                {/*        100*/}
-                {/*    ]}*/}
-                {/*    speed={50}*/}
-                {/*    style={{ fontSize: '1.25em' }}*/}
-                {/*/>*/}
-                <RotatingWords/>
-                <Spacer y={3}/>
-                <Switch aria-label="Automatic updates" onChange={changeThemeSwitch}/>
-                <Spacer y={6}/>
-            </div>
-            <img
-                src="/assets/img_phones.png"
-                className="h-18 sm:h-8 md:h-10 lg:h-12 xl:h-96"
-                alt="asd"/>
+    };
 
+    return (
+        <div className="flex-grow flex flex-col md:flex-row xl:justify-evenly justify-start items-center xl:h-screen mb-28 xl:mb-10">
+            <div className="font-bold text-3xl flex flex-col items-center md:items-start">
+                <RotatingWords />
+                {/*<Switch aria-label="Automatic updates" onChange={changeThemeSwitch} />*/}
+            </div>
+            <div className="flex justify-center items-center md:w-1/2 w-full mt-4 md:mt-0">
+                <img
+                    src="/assets/img_pc.png"
+                    className="w-full h-auto md:max-w-xs lg:max-w-md xl:max-w-lg"
+                    alt="Laptop Image"
+                />
+            </div>
         </div>
     );
-}
+};
