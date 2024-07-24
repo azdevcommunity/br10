@@ -22,13 +22,13 @@ const Navbar: React.FC = () => {
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <img
-                        src="/assets/img.png"
+                        src="../../public/assets/img.png"
                         className="h-14 sm:h-8 md:h-10 lg:h-12 xl:h-16"
                         alt="asd"/>
                     <span
                         className="ml-2 text-3xl font-semibold text-custom-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">br10</span>
                 </div>
-                <div className="hidden md:flex items-center space-x-10 font-medium">
+                <div className="max-sm:hidden md:flex items-center space-x-10 font-medium">
                     <a href="#homepage"
                        className="text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Home</a>
                     <a href="#about"
@@ -42,6 +42,7 @@ const Navbar: React.FC = () => {
                     <button
                         onClick={() => setIsOpen(!isOpen)}
                         type="button"
+                        className="text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900"
                         aria-controls="mobile-menu"
                         aria-expanded={isOpen}
                     >
@@ -68,13 +69,13 @@ const Navbar: React.FC = () => {
             >
                 <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
                     <a href="#homepage"
-                       className="block text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Home</a>
+                       className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Homepage</a>
                     <a href="#features"
-                       className="block text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Features</a>
+                       className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Features</a>
                     <a href="#about"
-                       className="block text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">About
+                       className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">About
                         us</a>
-                    <Button color={"primary"} text={"Log in"} className={"px-8 py-3 text-2xl"}/>
+                    <Button color={"primary"} text={"Log in"}/>
                 </div>
             </div>
         </nav>
