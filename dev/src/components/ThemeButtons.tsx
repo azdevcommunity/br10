@@ -13,6 +13,8 @@ const ThemeButtons: React.FC<ThemeButtonsProps> = ({ setTheme }) => {
         setTheme(icon === 'sun' ? 'light' : 'dark');
     }
 
+
+
     return (
         <div className="max-w-24 flex bg-gpt-gray-btn-light dark:bg-black gap-x-0 rounded-lg items-center justify-center h-7 px-0.5 mt-1">
             <div onClick={() => handleIconClick('sun')}

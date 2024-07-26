@@ -2,36 +2,37 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import './layouts/landingpage/overview.built.css'
-import {createBrowserRouter, Navigate, RouterProvider} from 'react-router-dom';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {Login} from "./layouts/login/Login.tsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App/>,
         children: [
-            {
-                path: 'docs',
-                element: <Navigate to="overview" replace/>
-            },
-            {
-                path: 'docs/overview',
-                element: <></>
-            },
-            {
-                path: 'docs/api-reference',
-                element: <div className="h-full w-full bg-red-500">asdasd</div>
-            },
-            {
-                path: 'migration',
-                element: <></>
-            },
+            // {
+            //     path: 'docs',
+            //     element: <Navigate to="overview" replace/>
+            // },
+            // {
+            //     path: 'docs/overview',
+            //     element: <></>
+            // },
+            // {
+            //     path: 'docs/api-reference',
+            //     element: <div className="h-full w-full bg-red-500">asdasd</div>
+            // },
+
             {
                 path: 'playground/:param',
                 element: <></>
             }
         ],
     },
+    {
+        path: 'login',
+        element: <Login/>
+    }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

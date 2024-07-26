@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import Button from './Button';
 import {HamburgerButton} from "./HamburgerButton.tsx";
 import {HamburgerButtonClose} from "./HamburgerButtonClose.tsx";
+import {useNavigate} from "react-router-dom";
 
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,8 +18,10 @@ const Navbar: React.FC = () => {
         }
     }, [isOpen]);
 
+    const navigate = useNavigate();
+
     return (
-        <nav className="px-4 py-2.5 sm:px-6 lg:px-8">
+        <nav className="px-4 sm:px-6 lg:px-8 backdrop-blur-[10px] fixed w-full z-50 bg-white/80">
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <img
@@ -29,14 +32,14 @@ const Navbar: React.FC = () => {
                         className="ml-2 text-3xl font-semibold text-custom-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">br10</span>
                 </div>
                 <div className="max-sm:hidden md:flex items-center space-x-10 font-medium">
-                    <a href="#homepage"
+                    <a href="#home"
                        className="text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Home</a>
                     <a href="#about"
                        className="text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">About
                         us</a>
                     <a href="#features"
                        className="text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Features</a>
-                    <Button color={"primary"} text={"Log in"} className={"ml-5 px-6 py-2"}/>
+                    <Button color={"primary"} text={"Log in"} className={"ml-5 px-6 py-2"} onClick={() => navigate('login')}/>
                 </div>
                 <div className="md:hidden">
                     <button
@@ -68,8 +71,8 @@ const Navbar: React.FC = () => {
                 id="mobile-menu"
             >
                 <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-                    <a href="#homepage"
-                       className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Homepage</a>
+                    <a href="#home"
+                       className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">home</a>
                     <a href="#features"
                        className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Features</a>
                     <a href="#about"

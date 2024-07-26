@@ -1,7 +1,7 @@
 export const AboutUs = () => {
     return (
         <div id="about"
-             className="flex flex-col items-center justify-start  h-1/2 lg:mx-24 max-sm:mx-12 whitespace-pre-wrap">
+             className="flex flex-col items-center justify-start h-1/2 lg:mx-24 max-sm:mx-12 whitespace-pre-wrap">
             {/*<Chip color="default" variant="bordered">About us</Chip>*/}
             <span className="text-xl sm:text-2xl md:text-3xl font-medium">br10 iş başında</span>
             <span className="text-5xl sm:text-6xl md:text-8xl font-bold mt-2 underline decoration-primary-500">
