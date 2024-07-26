@@ -15,7 +15,7 @@ export const HomePage: React.FC = () => {
     };
 
     return (
-        <div className="flex-grow flex flex-col md:flex-row xl:justify-evenly justify-start items-center xl:h-screen mb-28 xl:mb-10">
+        <div id={"home"} className="flex-grow flex flex-col md:flex-row xl:justify-evenly justify-start items-center xl:h-screen mb-28 xl:mb-10 max-sm:mt-10">
             <div className="font-bold text-3xl flex flex-col items-center md:items-start">
                 <RotatingWords />
                 {/*<Switch aria-label="Automatic updates" onChange={changeThemeSwitch} />*/}

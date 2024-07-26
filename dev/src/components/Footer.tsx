@@ -8,12 +8,12 @@ const Footer = () => {
                     <div className="font-light text-sm tracking-wider">
                         <p>© 2024 br10 - All rights reserved</p>
                     </div>
-                    <div className="flex space-x-5 mt-4 md:mt-0">
-                        <p className="hover:underline cursor-pointer">Terms & Conditions</p>
-                        <p className="hover:underline cursor-pointer">Privacy Policy</p>
-                        <p className="hover:underline cursor-pointer">Cookie Policy</p>
+                    <div className="flex space-x-5 mt-4 md:mt-0 justify-center items-center">
+                        <span className="hover:underline cursor-pointer">Terms & Conditions</span>
+                        <span className="hover:underline cursor-pointer">Privacy Policy</span>
+                        <span className="hover:underline cursor-pointer">Cookie Policy</span>
                     </div>
-                    <div className="flex space-x-4 mt-4 md:mt-0">
+                    <div className="flex space-x-5 mt-4 md:mt-0">
                         <IoLogoInstagram className="w-7 h-7 cursor-pointer" />
                         <IoLogoInstagram className="w-7 h-7 cursor-pointer" />
                         <IoLogoInstagram className="w-7 h-7 cursor-pointer" />
