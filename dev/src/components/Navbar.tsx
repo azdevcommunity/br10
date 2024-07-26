@@ -1,7 +1,11 @@
 import React, {useState, useRef, useEffect} from 'react';
-import Button from './Button';
 import {HamburgerButton} from "./HamburgerButton.tsx";
 import {HamburgerButtonClose} from "./HamburgerButtonClose.tsx";
+<<<<<<< Updated upstream
+=======
+import {useNavigate} from "react-router-dom";
+import {Button} from "@/components/ui/button.tsx";
+>>>>>>> Stashed changes
 
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +26,7 @@ const Navbar: React.FC = () => {
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <img
-                        src="../../public/assets/img.png"
+                        src="/assets/img.png"
                         className="h-14 sm:h-8 md:h-10 lg:h-12 xl:h-16"
                         alt="asd"/>
                     <span
@@ -36,7 +40,11 @@ const Navbar: React.FC = () => {
                         us</a>
                     <a href="#features"
                        className="text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Features</a>
+<<<<<<< Updated upstream
                     <Button color={"primary"} text={"Log in"} className={"ml-5 px-6 py-2"}/>
+=======
+                    <Button variant={"default"} className={"w-28"}>Log in</Button>
+>>>>>>> Stashed changes
                 </div>
                 <div className="md:hidden">
                     <button
@@ -75,7 +83,7 @@ const Navbar: React.FC = () => {
                     <a href="#about"
                        className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">About
                         us</a>
-                    <Button color={"primary"} text={"Log in"}/>
+                    <Button variant={"default"}>Log in</Button>
                 </div>
             </div>
         </nav>
