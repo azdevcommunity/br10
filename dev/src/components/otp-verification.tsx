@@ -16,9 +16,11 @@ interface OtpFormValues {
 interface OtpVerificationProps {
     phoneNumber: string;
     onChangePhoneNumber: () => void;
+    onResendOtp: () => void;
+    otpSent: boolean;
 }
 
-export const OtpVerification: React.FC<OtpVerificationProps> = ({ phoneNumber, onChangePhoneNumber }) => {
+export const OtpVerification: React.FC<OtpVerificationProps> = ({ phoneNumber, onChangePhoneNumber ,onResendOtp, otpSent}) => {
     const { register, handleSubmit, formState: { errors, isValid } } = useForm<OtpFormValues>({
         resolver: zodResolver(otpSchema),
         mode: "onChange"
@@ -41,6 +43,32 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ phoneNumber, o
             setIsButtonDisabled(true);
         }
     }, [otp]);
+
+    const [timeLeft, setTimeLeft] = useState<number>(30);
+    const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true);
+
+
+    useEffect(() => {
+        if (otpSent) {
+            setTimeLeft(30);
+            setIsResendDisabled(true);
+        }
+    }, [otpSent]);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prevTime => {
+                if (prevTime <= 1) {
+                    clearInterval(timer);
+                    setIsResendDisabled(false);
+                    return 0;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [otpSent]);
 
     return (
         <div className="flex min-h-[100vh] flex-col items-center justify-center bg-background px-4 py-12 max-sm:py-0 sm:px-6 lg:px-8">
@@ -66,7 +94,7 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ phoneNumber, o
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                             <span>Yenidən göndər:</span>
-                            <span className="font-medium">00:30</span>
+                            <span className="font-medium">{`00:${timeLeft.toString().padStart(2, '0')}`}</span>
                         </div>
                         <span className="cursor-pointer text-sm font-medium text-primary hover:underline" onClick={onChangePhoneNumber}>
               Telefon nömrəni dəyiş

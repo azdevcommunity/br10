@@ -42,7 +42,7 @@ export const PhoneNumberStep: React.FC<PhoneNumberStepProps> = ({onSubmitPhoneNu
         <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8">
                 <div className={"text-left"}>
-                    <h2 className="mt-6 text-3xl font-bold tracking-tight text-foreground">Başlayaq</h2>
+                    <h2 className="mt-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Başlayaq</h2>
                     <p className="mt-2 text-sm text-muted-foreground">Aktiv telefon nömrəni yaz ki, sənə təsdiq mesajı
                         göndərə bilək.</p>
                 </div>
