@@ -17,3 +17,12 @@ export interface MappingComponentProps {
     transformationPreviewData: any[];
     messages: string[];
 }
+
+export interface UserRegister {
+    phoneNumber?: string;
+    otp?: string;
+    username?: string;
+    password?: string;
+    birthDate?: string;
+    gender: string;
+}

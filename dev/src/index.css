@@ -138,3 +138,14 @@
     font-family: "SF Pro", sans-serif;
 
 }
+
+/* Hide the spinner controls on number inputs for all browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}

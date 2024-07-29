@@ -1,10 +1,14 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {HamburgerButton} from "./HamburgerButton.tsx";
 import {HamburgerButtonClose} from "./HamburgerButtonClose.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+    childrens?: React.ReactNode[];
+}
+
+const Navbar: React.FC<NavbarProps> = ({childrens}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [height, setHeight] = useState('0px');
     const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -40,7 +44,7 @@ const Navbar: React.FC = () => {
                     <a href="#features"
                        className="text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">Features</a>
 
-                    <Button variant={"default"} className={"w-28"}  onClick={() => navigate('login')}>Log in</Button>
+                    <Button variant={"default"} className={"w-28"} onClick={() => navigate('login')}>Log in</Button>
                 </div>
                 <div className="md:hidden">
                     <button
@@ -79,7 +83,7 @@ const Navbar: React.FC = () => {
                     <a href="#about"
                        className="block text-gray-700 hover:text-gray-900 dark:text-custom-gray-050 dark:hover:text-custom-gray-200">About
                         us</a>
-                    <Button variant={"default"}>Log in</Button>
+                    <Button variant={"default"} onClick={() => navigate('login')}>Log in</Button>
                 </div>
             </div>
         </nav>

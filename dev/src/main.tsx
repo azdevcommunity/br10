@@ -4,6 +4,9 @@ import App from './App.tsx';
 import './index.css';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {Login} from "./layouts/login/Login.tsx";
+import {Register} from "@/layouts/register/Register.tsx";
+import {UserProfilePage} from "@/components/user-profile-page.tsx";
+import StepManager from "@/components/StepManager.tsx";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +35,14 @@ const router = createBrowserRouter([
     {
         path: 'login',
         element: <Login/>
+    },
+    {
+        path: 'register',
+        element: <Register/>
+    },
+    {
+        path: 'profile/:param',
+        element: <UserProfilePage/>
     }
 ]);
 
