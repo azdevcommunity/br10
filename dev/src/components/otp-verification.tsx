@@ -78,18 +78,20 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ phoneNumber, o
                     <p className="text-muted-foreground">Sonu {phoneNumber.slice(-4)} olan nömrənə 6 rəqəmli təsdiq kodu göndərildi.</p>
                 </div>
                 <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                    <InputOTP maxLength={6}
-                              value={otp}
-                              onChange={(value) => setOtp(value)}>
-                        <InputOTPGroup>
-                            <InputOTPSlot index={0} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
-                            <InputOTPSlot index={1} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
-                            <InputOTPSlot index={2} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
-                            <InputOTPSlot index={3} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
-                            <InputOTPSlot index={4} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
-                            <InputOTPSlot index={5} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
-                        </InputOTPGroup>
-                    </InputOTP>
+                    <div className={"flex justify-center items-center"}>
+                        <InputOTP maxLength={6}
+                                  value={otp}
+                                  onChange={(value) => setOtp(value)}>
+                            <InputOTPGroup>
+                                <InputOTPSlot index={0} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
+                                <InputOTPSlot index={1} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
+                                <InputOTPSlot index={2} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
+                                <InputOTPSlot index={3} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
+                                <InputOTPSlot index={4} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
+                                <InputOTPSlot index={5} {...register("otp")} className={"h-14 w-14 text-2xl"}/>
+                            </InputOTPGroup>
+                        </InputOTP>
+                    </div>
                     {errors.otp && <p className="text-red-500">{errors.otp.message}</p>}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
