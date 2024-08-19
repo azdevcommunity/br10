@@ -1,18 +1,14 @@
 import RotatingWords from "../../components/RotatingWords.tsx";
 import { Spacer, Switch } from "@nextui-org/react";
-import React, { useContext } from "react";
+import React, {useContext, useEffect} from "react";
 import { ThemeContext } from "../../ThemeContext.tsx";
 
 export const HomePage: React.FC = () => {
     const { setLightTheme, setDarkTheme } = useContext(ThemeContext);
 
-    const changeThemeSwitch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.checked) {
-            setDarkTheme();
-        } else {
-            setLightTheme();
-        }
-    };
+    useEffect(() => {
+        setLightTheme();
+    }, []);
 
     return (
         <div id={"home"} className="flex-grow flex flex-col md:flex-row xl:justify-evenly justify-start items-center xl:h-screen mb-28 xl:mb-10 max-sm:mt-10">

@@ -7,6 +7,8 @@ import {Login} from "./layouts/login/Login.tsx";
 import {Register} from "@/layouts/register/Register.tsx";
 import {UserProfilePage} from "@/components/user-profile-page.tsx";
 import StepManager from "@/components/StepManager.tsx";
+import {LoginPage} from "@/components/login-page.tsx";
+import {MainPage} from "@/layouts/main/MainPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -34,7 +36,7 @@ const router = createBrowserRouter([
     },
     {
         path: 'login',
-        element: <Login/>
+        element: <LoginPage/>
     },
     {
         path: 'register',
@@ -43,6 +45,10 @@ const router = createBrowserRouter([
     {
         path: 'profile/:param',
         element: <UserProfilePage/>
+    },
+    {
+        path: 'main',
+        element: <MainPage/>
     }
 ]);
 
