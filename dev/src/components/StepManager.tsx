@@ -19,7 +19,10 @@ const StepManager = () => {
             {step === 1 ? (
                 <PhoneNumberStep onSubmitPhoneNumber={handlePhoneNumberSubmit} changeStep={setStep} phoneNumber={phoneNumber} />
             ) : (
-                <OtpVerification phoneNumber={phoneNumber} onChangePhoneNumber={handleEditPhoneNumber} />
+                <OtpVerification phoneNumber={phoneNumber} onChangePhoneNumber={handleEditPhoneNumber}
+                                 onResendOtp={function (): void {
+                                     throw new Error("Function not implemented.");
+                                 }} otpSent={false} />
             )}
         </div>
     );

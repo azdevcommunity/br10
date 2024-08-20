@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from "react";
-import {UserRegister} from "@/types.ts";
+import React, { useState} from "react";
 import {OtpVerification} from "@/components/otp-verification.tsx";
 import {PhoneNumberStep} from "@/components/phone-number-step.tsx";
 
@@ -33,7 +32,10 @@ export const Register: React.FC = () => {
                         {step === 1 ? (
                             <PhoneNumberStep onSubmitPhoneNumber={handlePhoneNumberSubmit} changeStep={setStep} phoneNumber={phoneNumber} />
                         ) : (
-                            <OtpVerification phoneNumber={phoneNumber} onChangePhoneNumber={handleEditPhoneNumber} />
+                            <OtpVerification phoneNumber={phoneNumber} onChangePhoneNumber={handleEditPhoneNumber}
+                                             onResendOtp={function (): void {
+                                                 throw new Error("Function not implemented.");
+                                             }} otpSent={false} />
                         )}
                     </div>
                 </div>

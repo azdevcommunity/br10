@@ -1,7 +1,10 @@
+// @ts-ignore
+// @ts-ignore
+
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
-import { Checkbox } from "@/components/ui/checkbox"
+import {ColumnDef} from "@tanstack/react-table"
+import {Checkbox} from "@/components/ui/checkbox"
 
 export type Payment = {
     id: string
@@ -10,20 +13,25 @@ export type Payment = {
     service: string
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const columns: ColumnDef<Payment>[] = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                    table.getIsAllPageRowsSelected()
+                        ? true
+                        : table.getIsSomePageRowsSelected()
+                            ? 'indeterminate'
+                            : false
                 }
                 onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -34,7 +42,7 @@ export const columns: ColumnDef<Payment>[] = [
     {
         accessorKey: "service",
         header: () => <div>Xidmət</div>,
-        cell: ({ row }) => {
+        cell: ({row}) => {
             const email = row.getValue("service")
 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -45,7 +53,7 @@ export const columns: ColumnDef<Payment>[] = [
     {
         accessorKey: "amount",
         header: () => <div className="text-right">Qiymət</div>,
-        cell: ({ row }) => {
+        cell: ({row}) => {
             const amount = parseFloat(row.getValue("amount"))
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
