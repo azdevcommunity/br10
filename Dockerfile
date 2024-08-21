@@ -13,7 +13,7 @@ RUN npm install -g typescript vite
 # Copy all files
 COPY ./dev .
 
-# Build the app for production
+# Build the app
 RUN npm run build
 
 # Stage 2: Serve the app
