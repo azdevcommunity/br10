@@ -2,7 +2,7 @@
 FROM node:alpine as build  
 
 WORKDIR /app 
-
+ 
 # Copy package.json and package-lock.json
 COPY ./dev/package*.json ./
 
