@@ -1,7 +1,7 @@
 # Stage 1: Build
 FROM node:alpine as build
 
-WORKDIR /app
+WORKDIR /app 
 
 # Copy package.json and package-lock.json
 COPY ./dev/package*.json ./
