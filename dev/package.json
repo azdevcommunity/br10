@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "serve":"npx serve -s dist -l ${PORT:-80}",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -47,6 +48,7 @@
     "react-slick": "^0.30.2",
     "react-transition-group": "^4.4.5",
     "react-type-animation": "^3.2.0",
+    "serve": "^14.2.3",
     "slick-carousel": "^1.8.1",
     "sql-autocomplete": "^1.1.1",
     "tailwind-merge": "^2.4.0",
