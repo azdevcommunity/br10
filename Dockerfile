@@ -16,7 +16,7 @@ COPY ./dev .
 # Build the app
 RUN npm run build 
 
-# Stage 2: Serve the app
+# Stage 2: Serve the app 
 FROM node:alpine
 
 WORKDIR /app
