@@ -5,7 +5,7 @@ WORKDIR /app
  
 # Copy package.json and package-lock.json
 COPY ./dev/package*.json ./ 
-
+ 
 # Install dependencies
 RUN npm install --frozen-lockfile
 RUN npm install -g typescript vite
