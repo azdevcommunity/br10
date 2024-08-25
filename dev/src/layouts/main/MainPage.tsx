@@ -6,7 +6,7 @@ import {DataTable} from "@/data/data-table";
 import {GalleryComponent} from "@/components/gallery-component";
 import {useIsMobile} from "@/hooks/useIsMobile.ts";
 import {useToast} from "@/components/ui/use-toast";
-import React from "react";
+import React, {useEffect} from "react";
 import {Toaster} from "@/components/ui/toaster.tsx";
 
 async function getData(): Promise<Payment[]> {
@@ -162,6 +162,21 @@ const AddressSection = () => {
 
 export const MainPage = () => {
     const isMobile = useIsMobile()
+
+
+    useEffect(() => {
+        fetch(import.meta.env.VITE_BR10_API_BASE_URL,{
+            method: "POST",
+            body: JSON.stringify({
+                "phoneNumberOrUsername": "specialist",
+                "password": "test"
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                "TIME_ZONE":"+04:00",
+            }
+        }).then(res => res.json()).then(data => console.log(data))
+    }, []);
 
     return (
         <div className="h-screen w-full flex lg:flex-row flex-col  pt-10">
