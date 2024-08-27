@@ -1,11 +1,11 @@
 # Stage 1: Build
-FROM node:alpine as build
+FROM node:alpine as build  
 
-WORKDIR /app
-
-# Copy package.json and package-lock.json
-COPY ./dev/package*.json ./
-
+WORKDIR /app 
+ 
+# Copy package.json and package-lock.json  
+COPY ./dev/package*.json ./ 
+ 
 # Install dependencies
 RUN npm install --frozen-lockfile
 RUN npm install -g typescript vite
@@ -14,9 +14,9 @@ RUN npm install -g typescript vite
 COPY ./dev .
 
 # Build the app
-RUN npm run build
+RUN npm run build 
 
-# Stage 2: Serve the app
+# Stage 2: Serve the app 
 FROM node:alpine
 
 WORKDIR /app
