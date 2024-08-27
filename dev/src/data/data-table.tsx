@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button.tsx"
 import React from "react"
 import { Spacer } from "@nextui-org/react"
+import {Skeleton} from "@/components/ui/skeleton.tsx";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -29,7 +30,7 @@ export function DataTable<TData, TValue>({
                                              columns,
                                              data,
                                          }: DataTableProps<TData, TValue>) {
-    const [rowSelection, setRowSelection] = React.useState({})
+    const [rowSelection, setRowSelection] = React.useState({});
 
     const table = useReactTable({
         data,
@@ -40,20 +41,20 @@ export function DataTable<TData, TValue>({
         state: {
             rowSelection,
         },
-    })
+    });
 
-    const isRowSelected = Object.keys(rowSelection).length > 0
+    const isRowSelected = Object.keys(rowSelection).length > 0;
 
     return (
         <>
-
+            {/* Conditional rendering based on row selection */}
             {isRowSelected && (
                 <div className="absolute top-0 left-0 w-full px-10 py-1.5 z-10 font-medium text-sm">
                     Seçilmiş xidmət sayı: {Object.keys(rowSelection).length}
                 </div>
             )}
             <div className="relative overflow-x-auto !h-[30rem] max-sm:!h-[16rem] bg-transparent">
-                <div className="rounded-md border ">
+                <div className="rounded-md border">
                     <Table>
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
@@ -87,15 +88,14 @@ export function DataTable<TData, TValue>({
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={columns.length} className="h-24 text-center">
-                                        No results.
+                                    <TableCell colSpan={columns.length} className="h-full text-center">
+                                        <Skeleton className="h-4 w-full" />
                                     </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
                     </Table>
                 </div>
-
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
                 {isRowSelected ? (
@@ -103,7 +103,7 @@ export function DataTable<TData, TValue>({
                         Bron et
                     </Button>
                 ) : <div></div>}
-                <div className={`flex items-center justify-end`}>
+                <div className="flex items-center justify-end max-sm:pr-3">
                     <Button
                         variant="outline"
                         size="sm"
@@ -112,7 +112,7 @@ export function DataTable<TData, TValue>({
                     >
                         Əvvəlki
                     </Button>
-                    <Spacer x={2}/>
+                    <Spacer x={2} />
                     <Button
                         variant="outline"
                         size="sm"
@@ -122,8 +122,7 @@ export function DataTable<TData, TValue>({
                         Növbəti
                     </Button>
                 </div>
-
             </div>
         </>
-    )
+    );
 }

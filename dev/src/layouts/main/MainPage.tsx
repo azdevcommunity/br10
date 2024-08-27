@@ -1,92 +1,102 @@
 import {Spacer} from "@nextui-org/react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {columns, Payment} from "@/data/columns";
+import {columns, Service} from "@/data/columns";
 import {DataTable} from "@/data/data-table";
 import {GalleryComponent} from "@/components/gallery-component";
 import {useIsMobile} from "@/hooks/useIsMobile.ts";
 import {useToast} from "@/components/ui/use-toast";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Toaster} from "@/components/ui/toaster.tsx";
 
-async function getData(): Promise<Payment[]> {
-    return [
-        {
-            id: "728ed52f",
-            amount: 10,
-            status: "pending",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b8",
-            amount: 20,
-            status: "processing",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b9",
-            amount: 30,
-            status: "success",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b0",
-            amount: 40,
-            status: "failed",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b1",
-            amount: 50,
-            status: "pending",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b2",
-            amount: 60,
-            status: "processing",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b3",
-            amount: 70,
-            status: "success",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b4",
-            amount: 80,
-            status: "failed",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b5",
-            amount: 90,
-            status: "pending",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b6",
-            amount: 100,
-            status: "processing",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b7",
-            amount: 110,
-            status: "success",
-            service: "Saç qırxmaq",
-        },
-        {
-            id: "f3a2f6b8",
-            amount: 120,
-            status: "failed",
-            service: "Saç qırxmaq",
-        },
-    ];
-}
-
-const data = await getData();
+// async function getData(): Promise<Service[]> {
+//     return [
+//         {
+//             id: "728ed52f",
+//             amount: 10,
+//             status: "pending",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b8",
+//             amount: 20,
+//             status: "processing",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b9",
+//             amount: 30,
+//             status: "success",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b0",
+//             amount: 40,
+//             status: "failed",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b1",
+//             amount: 50,
+//             status: "pending",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b2",
+//             amount: 60,
+//             status: "processing",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b3",
+//             amount: 70,
+//             status: "success",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b4",
+//             amount: 80,
+//             status: "failed",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b5",
+//             amount: 90,
+//             status: "pending",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b6",
+//             amount: 100,
+//             status: "processing",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b7",
+//             amount: 110,
+//             status: "success",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//         {
+//             id: "f3a2f6b8",
+//             amount: 120,
+//             status: "failed",
+//             service: "Saç qırxmaq",
+//             duration: "10 dəqiqə",
+//         },
+//     ];
+// }
 
 const AvatarSection = () => (
     <div className="flex flex-row items-center">
@@ -100,6 +110,7 @@ const AvatarSection = () => (
 );
 
 const IconButton = ({children, onClick}: { children: React.ReactNode, onClick?: () => void }) => {
+
     return (
         <div
             className={`cursor-pointer w-32 h-9 rounded-xl flex justify-center items-center bg-blue-200 text-blue-700 
@@ -108,7 +119,6 @@ const IconButton = ({children, onClick}: { children: React.ReactNode, onClick?: 
         </div>
     );
 };
-
 const InfoSection = () => (
     <div className="w-80 h-72 hidden rounded-3xl bg-white ml-10 shadow-xl mb-10 p-5 pl-10 lg:flex flex-col space-y-2">
         <span className="font-bold text-2xl">İş saatları</span>
@@ -123,8 +133,9 @@ const InfoSection = () => (
     </div>
 );
 
-
 const AddressSection = () => {
+
+
     const {toast} = useToast();
     return (
         <div
@@ -160,20 +171,63 @@ const AddressSection = () => {
     );
 };
 
+
+
+
 export const MainPage = () => {
-    const isMobile = useIsMobile()
+    const [data, setData] = useState<Service[]>([]);
+
+    const fetchData = async () => {
+        const url = 'http://localhost:8082/api/specialist-service';
+        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJVU0VSX0lEIjoxMiwiVE9LRU5fSUQiOjI4MDc1MCwic3ViIjoiMDU1MjAxOTQwMSIsImlhdCI6MTcyNDc2NTQzNiwiZXhwIjoxNzI0ODUxODM2fQ._pIXMsegTWGIMoVRLEwDgcLAWPzXhLiFWyVJfrb7MGo';
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const responseData = await response.json();
+            const serviceData = responseData.data;
+
+            const payments = serviceData.map((item: Service) => ({
+                id: item.id,
+                amount: item.price,
+                status: 'pending', // or another relevant field
+                service: item.name,
+                duration: `${item.duration} dəqiqə`,
+            }));
+
+            setData(payments);
+            console.log('Mapped Data:', payments);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []); // Empty dependency array ensures this runs only once on mount
+
+    const isMobile = useIsMobile();
 
     return (
-        <div className="h-screen w-full flex lg:flex-row flex-col  pt-10">
-            <div
-                className="flex flex-col items-start justify-start space-y-5 max-sm:justify-center max-sm:items-center">
-                <div
-                    className="rounded-3xl w-80 max-sm:w-full max-sm:rounded-none max-sm:shadow-none p-10 pt-0 max-[320px]:px-10 max-[320px]:py-6 flex flex-col justify-between lg:mx-10 max-[320px]:w-72 mt-10 max-sm:mt-7 shadow-xl space-y-8 max-[320px]:space-y-7">
-                    <AvatarSection/>
+        <div className="h-screen w-full flex lg:flex-row flex-col pt-10 max-[320px]:pt-0 max-sm:px-10">
+            <div className="flex flex-col items-start justify-start space-y-5 max-sm:justify-center max-sm:items-center">
+                <div className="rounded-3xl w-80 max-sm:w-full max-sm:rounded-none max-sm:shadow-none max-sm:px-0 p-10 pt-0 max-[320px]:py-6 flex flex-col justify-between lg:mx-10 max-[320px]:w-72 mt-10 max-sm:mt-7 shadow-xl space-y-8 max-[320px]:space-y-7">
+                    <AvatarSection />
                     <div className="flex flex-row space-x-4 max-sm:space-x-3 justify-center items-center">
                         <IconButton>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                 className="size-6 max-sm:h-6 max-sm:w-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 max-sm:h-6 max-sm:w-6">
                                 <path
                                     fillRule="evenodd"
                                     d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
@@ -182,52 +236,43 @@ export const MainPage = () => {
                             </svg>
                         </IconButton>
                         <IconButton>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                 className="size-6 max-sm:h-6 max-sm:w-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 max-sm:h-6 max-sm:w-6">
                                 <path
                                     fillRule="evenodd"
-                                    d="M4.804 21.644A6.707 6.707 0 0 0 6 21.75a6.721 6.721 0 0 0 3.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232                    .226.277.428.254.543a3.73 3.73 0 0 1-.814 1.686.75.75 0 0 0 .44 1.223ZM8.25 10.875a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25ZM10.875 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z"
+                                    d="M4.804 21.644A6.707 6.707 0 0 0 6 21.75a6.721 6.721 0 0 0 3.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 0 1-.814 1.686.75.75 0 0 0 .44 1.223ZM8.25 10.875a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25ZM10.875 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z"
                                     clipRule="evenodd"
                                 />
                             </svg>
                         </IconButton>
                     </div>
                 </div>
-                <InfoSection/>
-                <AddressSection/>
+                <InfoSection />
+                <AddressSection />
             </div>
-            <div
-                className={`w-full flex lg:pr-10 px-10 max-sm:justify-center max-sm:items-center 
-                max-[320px]:w-full max-[320px]:pt-8`}>
+            <div className={`w-full flex lg:pr-10 max-sm:px-0 px-10 max-sm:justify-center max-sm:items-center max-[320px]:w-full max-[320px]:pt-8 p-0`}>
                 <Tabs defaultValue="services" className="lg:w-full">
-
                     <TabsList className="shadow-sm">
                         <TabsTrigger value="services">Xidmətlər</TabsTrigger>
                         <TabsTrigger value="gallery">Qalereya</TabsTrigger>
-                        {isMobile && (<TabsTrigger value="info">Məlumat</TabsTrigger>)}
+                        {isMobile && <TabsTrigger value="info">Məlumat</TabsTrigger>}
                     </TabsList>
                     <TabsContent value="services">
-                        <div
-                            className={`max-[320px]:max-h-[15rem] max-sm:h-[23rem] h-[38rem] rounded-3xl shadow-lg
-                            lg:w-full w-80 bg-white pt-10 px-10 max-[320px]:px-5 max-[320px]:pt-5 mb-3 relative`}>
-                            <DataTable columns={columns} data={data}/>
+                        <div className={`max-[320px]:h-[21rem] max-sm:h-[21rem] h-[38rem] rounded-3xl shadow-lg lg:w-full w-80 bg-white pt-10 px-10 max-sm:px-0 max-sm:py-0 max-sm:pt-3 max-[320px]:px-3 max-[320px]:pt-8 max-[320px]:shadow-none mb-3 relative`}>
+                            <DataTable columns={columns} data={data} />
                         </div>
                     </TabsContent>
                     <TabsContent value="gallery">
-                        <div
-                            className="max-sm:h-[23rem] h-[38rem] rounded-3xl shadow-lg lg:w-full w-80 bg-white pt-10 px-10 overflow-auto max-[320px]:px-5 max-[320px]:pt-5 mb-3">
-                            <GalleryComponent/>
+                        <div className="max-sm:h-[23rem] h-[38rem] rounded-3xl shadow-lg lg:w-full w-80 bg-white pt-10 px-10 overflow-auto max-[320px]:px-5 max-[320px]:pt-5 mb-3">
+                            <GalleryComponent />
                         </div>
                     </TabsContent>
                     {isMobile && (
                         <TabsContent value="info">
-                            <div
-                                className="max-sm:h-[23rem] h-[38rem] rounded-3xl shadow-lg lg:w-full w-80 bg-white pt-10 px-10 overflow-auto max-[320px]:px-5 max-[320px]:pt-5 mb-3">
+                            <div className="max-sm:h-[23rem] h-[38rem] rounded-3xl shadow-lg lg:w-full w-80 bg-white pt-10 px-10 overflow-auto max-[320px]:px-5 max-[320px]:pt-5 mb-3">
                                 <div>
                                     <span className="font-bold text-2xl">Məlumat</span>
-                                    <Spacer y={2}/>
-                                    <span className="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                                auctor, nunc nec ultricies.</span>
+                                    <Spacer y={2} />
+                                    <span className="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam auctor, nunc nec ultricies.</span>
                                 </div>
                             </div>
                         </TabsContent>
@@ -235,5 +280,5 @@ export const MainPage = () => {
                 </Tabs>
             </div>
         </div>
-    )
+    );
 };

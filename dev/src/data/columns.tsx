@@ -1,21 +1,22 @@
-// @ts-ignore
-// @ts-ignore
-
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
 import {Checkbox} from "@/components/ui/checkbox"
+import {Badge} from "@/components/ui/badge.tsx";
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    service: string
+export type Service = {
+    id: number;
+    specialistUserId: number;
+    duration: number;
+    name: string;
+    price: number;
+    description: string;
+    image: string | null;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Service>[] = [
     {
         id: "select",
         header: ({table}) => (
@@ -42,25 +43,30 @@ export const columns: ColumnDef<Payment>[] = [
     {
         accessorKey: "service",
         header: () => <div>Xidmət</div>,
-        cell: ({row}) => {
-            const email = row.getValue("service")
-
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            return <div>{email}</div>
+        cell: ({ row }) => {
+            const service:string = row.getValue("service");
+            return <div>{service}</div>;
+        },
+    },
+    {
+        accessorKey: "duration",
+        header: () => <div className="text-right flex">Duration</div>,
+        cell: ({ row }) => {
+            const duration:string = row.getValue("duration");
+            return <Badge variant="outline" className={"cursor-default"}>{duration}</Badge>;
         },
     },
     {
         accessorKey: "amount",
         header: () => <div className="text-right">Qiymət</div>,
-        cell: ({row}) => {
-            const amount = parseFloat(row.getValue("amount"))
+        cell: ({ row }) => {
+            const amount:number = row.getValue("amount");
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "AZN",
-            }).format(amount)
+            }).format(amount);
 
-            return <div className="text-right font-medium">{formatted}</div>
+            return <div className="text-right font-medium">{formatted}</div>;
         },
     },
 ]
