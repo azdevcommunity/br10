@@ -5,10 +5,10 @@ import * as path from "node:path";
 // https://vitejs.dev/config/
 export default defineConfig({
   esbuild: {
-    target: 'es2022', // or later
+    target: 'es2022',
   },
   build: {
-    target: 'es2022', // or later
+    target: 'es2022',
   },
   plugins: [react()],
   resolve: {
