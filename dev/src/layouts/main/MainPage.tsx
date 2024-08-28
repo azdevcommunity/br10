@@ -178,7 +178,7 @@ export const MainPage = () => {
     const [data, setData] = useState<Service[]>([]);
 
     const fetchData = async () => {
-        const url = 'http://localhost:8082/api/specialist-service';
+        const url = 'http://backend-app:8082/api/specialist-service';
         const token = 'eyJhbGciOiJIUzI1NiJ9.eyJVU0VSX0lEIjoxMiwiVE9LRU5fSUQiOjI4MDc1MCwic3ViIjoiMDU1MjAxOTQwMSIsImlhdCI6MTcyNDc2NTQzNiwiZXhwIjoxNzI0ODUxODM2fQ._pIXMsegTWGIMoVRLEwDgcLAWPzXhLiFWyVJfrb7MGo';
 
         try {
