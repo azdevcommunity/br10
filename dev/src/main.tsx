@@ -7,6 +7,7 @@ import {Register} from "@/layouts/register/Register.tsx";
 import {UserProfilePage} from "@/components/user-profile-page.tsx";
 import {LoginPage} from "@/components/login-page.tsx";
 import {MainPage} from "@/layouts/main/MainPage.tsx";
+import {URLRequestPage} from "@/components/urlrequest-page.tsx";
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
     {
         path: 'main',
         element: <MainPage/>
+    },
+    {
+        path: 'url-request',
+        element: <URLRequestPage/>
     }
 ]);
 
