@@ -24,11 +24,13 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    onSelectionChange: (selectedIds: number[]) => void;
 }
 
 export function DataTable<TData, TValue>({
                                              columns,
                                              data,
+                                             onSelectionChange
                                          }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({});
 
@@ -45,9 +47,14 @@ export function DataTable<TData, TValue>({
 
     const isRowSelected = Object.keys(rowSelection).length > 0;
 
+    const handleButtonClick = () => {
+        // @ts-ignore
+        const selectedIds = table.getSelectedRowModel().rows.map((row) => row.original.id);
+        onSelectionChange(selectedIds);
+    };
+
     return (
         <>
-            {/* Conditional rendering based on row selection */}
             {isRowSelected && (
                 <div className="absolute top-0 left-0 w-full px-10 py-1.5 z-10 font-medium text-sm">
                     Seçilmiş xidmət sayı: {Object.keys(rowSelection).length}
@@ -99,7 +106,7 @@ export function DataTable<TData, TValue>({
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
                 {isRowSelected ? (
-                    <Button variant="default" size="sm">
+                    <Button variant="default" size="sm" onClick={handleButtonClick}>
                         Bron et
                     </Button>
                 ) : <div></div>}
