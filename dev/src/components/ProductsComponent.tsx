@@ -9,7 +9,7 @@ export function ProductsComponent() {
 
   const { data } = useReadProductsQuery(undefined);
 
-  const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
+  const [active, setActive] = useState<any>(
     null
   );
   const ref = useRef<HTMLDivElement>(null);
