@@ -12,7 +12,7 @@ interface LoginResponse {
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    tagTypes:["galleries",],
+    tagTypes:["galleries","products"],
     baseQuery: fetchBaseQuery({
         baseUrl:import.meta.env.VITE_BR10_API_BASE_URL,
         prepareHeaders: (headers, { getState }) => {
