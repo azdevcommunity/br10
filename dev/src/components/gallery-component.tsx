@@ -1,4 +1,4 @@
-import { useReadGalleriesQuery } from "@/redux/slices/cachFlowSlice";
+import { useReadGalleriesQuery } from "@/redux/slices/gallerySlice";
 import { Link } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { date } from "zod";
