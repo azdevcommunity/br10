@@ -114,6 +114,13 @@
         url("./fonts/SF-Pro-Display-Black.otf") format("truetype");
         font-weight: 800;
     }
+
+    @font-face{
+        font-family: "CalSans";
+        src: local("CalSans"),
+        url("./fonts/CalSans-SemiBold.otf") format("truetype");
+        font-weight: 600;
+    }
 }
 
 @layer utilities {
@@ -129,14 +136,12 @@
 }
 
 * {
-
     scroll-behavior: smooth;
     outline: none;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "SF Pro", sans-serif;
-
 }
 
 /* Hide the spinner controls on number inputs for all browsers */

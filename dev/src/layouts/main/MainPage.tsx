@@ -326,7 +326,7 @@ export const MainPage = () => {
                     <div className={`max-[320px]:h-[21rem] max-sm:h-[29rem] h-[38rem] rounded-3xl shadow-lg lg:w-full mt-12
                         w-80 bg-white pt-10 px-10 max-sm:px-0 max-sm:py-0 max-sm:pt-3 max-[320px]:px-3 max-[320px]:pt-8 
                         max-[320px]:shadow-none mb-3 relative`}>
-                        <StepperDemo />
+                        {/*<StepperDemo />*/}
                     </div>
                 ) : tableComponent()}
             </div>
