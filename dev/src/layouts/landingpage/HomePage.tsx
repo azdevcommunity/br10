@@ -1,9 +1,5 @@
-import RotatingWords from "../../components/RotatingWords.tsx";
-import {Spacer, Switch} from "@nextui-org/react";
 import React, {useContext, useEffect} from "react";
 import {ThemeContext} from "../../ThemeContext.tsx";
-import {AnimatedSubscribeButton} from "@/components/AnimatedSubscribeButton.tsx";
-import {CheckIcon, ChevronRightIcon} from "lucide-react";
 import {useNavigate} from "react-router-dom";
 
 export const HomePage: React.FC = () => {

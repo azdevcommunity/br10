@@ -12,7 +12,8 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store.ts';
 import { AuthProvider } from './AuthProvider.tsx';  // AuthProvider import edin
 import ProtectedRoute from './ProtectedRoute.tsx';
-import Logout from "@/Logout.tsx";  // ProtectedRoute import edin
+import Logout from "@/Logout.tsx";
+import {RegisterV2} from "@/layouts/register/RegisterV2.tsx";  // ProtectedRoute import edin
 
 const router = createBrowserRouter([
     {
@@ -25,7 +26,8 @@ const router = createBrowserRouter([
     },
     {
         path: '/register',
-        element: <Register />,
+        // element: <Register />,
+        element: <RegisterV2/>,
     },
     // Protected routes
     {

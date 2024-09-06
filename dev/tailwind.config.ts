@@ -31,6 +31,7 @@ module.exports = {
                     "dark-card": "#1E1F20",
                     "button": "#111827",
                     "button-hover": "#101010",
+                    "register-cover": "#F9FAFB",
                     "dark-card-medium": "#101010",
                     "mb-dark-card":"#0F0F0F"
                 },
