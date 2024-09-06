@@ -41,7 +41,7 @@ export const AboutUs = () => {
         // >
         //     <img src="/assets/watch_our_film_xlarge.jpg" alt="Scroll Animations"/>
         // </ContainerScroll>
-        <div className={"px-11 max-sm:px-0  mt-10 mx-auto h-full"}>
+        <div className={"px-11 max-sm:px-0  mt-10 mx-auto h-full max-w-screen-xl"}>
             <div
                 className="px-10 py-10 relative bg-cal-dark-card max-sm:bg-cal-mb-dark-card max-sm:h-full h-[43rem]
                 [background-image:radial-gradient(100%_100%_at_top,rgba(255,255,255,0.05),rgba(255,255,255,0))] sm:mx-0

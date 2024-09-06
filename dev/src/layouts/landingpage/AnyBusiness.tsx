@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {WobbleCard} from "@/components/WobbleCard.tsx";
-import {Image, Spacer} from "@nextui-org/react";
+import {Image} from "@nextui-org/react";
 import {AnimatedListDemo} from "@/components/Notification.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 
@@ -44,7 +44,7 @@ export const AnyBusiness = () => {
     };
 
     return (
-        <div className={"mx-auto w-full px-11 max-sm:px-4 max-sm:mt-10 mt-28 text-center max-sm:text-start"}>
+        <div className={"mx-auto w-full max-w-screen-xl px-11 max-sm:px-4 max-sm:mt-10 mt-28 text-center max-sm:text-start"}>
             <span className={"font-bold text-7xl max-sm:text-3xl"}>İstənilən biznesə uyğunlaşan cədvəl</span>
             <div
                 className="flex overflow-x-auto space-x-4 w-full p-4 pl-0 mx-auto  justify-center max-sm:justify-start items-center flex-row">
@@ -256,8 +256,9 @@ export const AnyBusiness = () => {
                     </div>
                 </div>
             </div>
-            <div className={"w-full max-sm:flex-col-reverse flex flex-row mt-10 justify-center max-w-screen-xl mx-auto space-x-10 max-sm:space-x-0"}>
-                <AnimatedListDemo className={"max-sm:w-full rounded-3xl w-[50%] max-sm:mt-10"}/>
+            <div
+                className={"w-full max-sm:flex-col-reverse flex flex-row mt-10 justify-center max-w-screen-xl mx-auto space-x-10 max-sm:space-x-0"}>
+                <AnimatedListDemo className={"max-sm:w-full rounded-3xl w-[50%] max-sm:mt-10"} />
                 <div className={"flex flex-col text-start space-y-10 max-sm:space-y-4"}>
                     <span className={`text-5xl font-bold max-sm:text-3xl`}>
                         Müştəri rezervasiyası haqqında ani bildiriş – işinizi asanlaşdıran rahatlıq!

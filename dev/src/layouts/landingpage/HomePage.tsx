@@ -18,9 +18,9 @@ export const HomePage: React.FC = () => {
 
     return (
         <div id={"home"}
-             className="mt-24 flex-grow flex flex-col md:flex-row justify-around min-[1720px]:justify-center items-start xl:h-full mb-28 xl:mb-10 max-sm:mt-10 w-full">
+             className="mt-24 flex-grow flex flex-col md:flex-row justify-around
+             xl:h-full mb-28 xl:mb-10 max-sm:mt-10 w-full max-w-screen-xl">
             <div className="font-bold text-3xl flex flex-col items-start">
-                {/*<RotatingWords />*/}
                 <div className={""}>
                     <div className={"font-bold text-8xl max-sm:text-6xl max-[320px]:text-5xl leading-[6rem] max-sm:px-5"}
                          style={{textShadow: "0px 3px #DCDCDC", fontFamily: "CalSans"}}>

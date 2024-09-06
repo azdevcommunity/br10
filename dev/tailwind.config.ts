@@ -29,6 +29,9 @@ module.exports = {
                 cal: {
                     "primary": "#F2F2F2",
                     "dark-card": "#1E1F20",
+                    "button": "#111827",
+                    "button-hover": "#101010",
+                    "dark-card-medium": "#101010",
                     "mb-dark-card":"#0F0F0F"
                 },
                 border: "hsl(var(--border))",

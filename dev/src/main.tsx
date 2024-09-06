@@ -2,63 +2,66 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import {Register} from "@/layouts/register/Register.tsx";
-import {UserProfilePage} from "@/components/user-profile-page.tsx";
-import {LoginPage} from "@/components/login-page.tsx";
-import {MainPage} from "@/layouts/main/MainPage.tsx";
-import {URLRequestPage} from "@/components/urlrequest-page.tsx";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Register } from "@/layouts/register/Register.tsx";
+import { UserProfilePage } from "@/components/user-profile-page.tsx";
+import { LoginPageV3 } from "@/components/LoginPageV3.tsx";
+import { MainPage } from "@/layouts/main/MainPage.tsx";
+import { URLRequestPage } from "@/components/urlrequest-page.tsx";
 import { Provider } from 'react-redux';
 import { store } from './redux/store.ts';
+import { AuthProvider } from './AuthProvider.tsx';  // AuthProvider import edin
+import ProtectedRoute from './ProtectedRoute.tsx';
+import Logout from "@/Logout.tsx";  // ProtectedRoute import edin
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App/>,
-        children: [
-            // {
-            //     path: 'docs',
-            //     element: <Navigate to="overview" replace/>
-            // },
-            // {
-            //     path: 'docs/overview',
-            //     element: <></>
-            // },
-            // {
-            //     path: 'docs/api-reference',
-            //     element: <div className="h-full w-full bg-red-500">asdasd</div>
-            // },
-
-            {
-                path: 'playground/:param',
-                element: <></>
-            }
-        ],
+        element: <App />,
     },
     {
-        path: 'login',
-        element: <LoginPage/>
+        path: '/login',
+        element: <LoginPageV3 />,
     },
     {
-        path: 'register',
-        element: <Register/>
+        path: '/register',
+        element: <Register />,
+    },
+    // Protected routes
+    {
+        path: '/profile/:param',
+        element: (
+            <ProtectedRoute>
+                <UserProfilePage />
+            </ProtectedRoute>
+        ),
     },
     {
-        path: 'profile/:param',
-        element: <UserProfilePage/>
+        path: '/main',
+        element: (
+            <ProtectedRoute>
+                <MainPage />
+            </ProtectedRoute>
+        ),
     },
     {
-        path: 'main',
-        element: <MainPage/>
+        path: '/url-request',
+        element: (
+            <ProtectedRoute>
+                <URLRequestPage />
+            </ProtectedRoute>
+        ),
     },
     {
-        path: 'url-request',
-        element: <URLRequestPage/>
+        path: '/logout',
+        element: <Logout />,
     }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
-        <RouterProvider router={router}/>
-    </Provider>,
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
+    </Provider>
 );
