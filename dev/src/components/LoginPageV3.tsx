@@ -54,6 +54,15 @@ export const LoginPageV3: React.FC = () => {
         const loginData = {
             phoneNumberOrUsername: phoneNumber,
             password: password,
+            deviceInfo: {
+                deviceId: "e1986237-1a60-4b2d-8392-50176d2d1947",
+                clientType: 2,
+                operatingSystem: "ios",
+                osVersion: "15",
+                appVersion: "12",
+                brand: "iphone",
+                model: "se2"
+            }
         };
 
         try {

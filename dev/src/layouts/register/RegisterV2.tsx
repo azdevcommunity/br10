@@ -1,7 +1,84 @@
 import {Input} from "@/components/ui/input.tsx";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {z} from "zod";
+import {useToast} from "@/components/ui/use-toast.ts";
+import {useLocation, useNavigate} from "react-router-dom";
+
+const registerSchema = z.object({
+    phoneNumber: z
+        .string()
+        .length(9, { message: "Telefon nömrəsi 9 rəqəmli olmalıdır" })
+        .regex(/^\d+$/, "Yalnız rəqəmlər qəbul edilir"),
+    password: z
+        .string()
+        .min(7, { message: "Şifrə ən azı 7 simvol olmalıdır" })
+        .regex(/[A-Z]/, "Şifrə ən azı bir böyük hərf içerməlidir")
+        .regex(/[a-z]/, "Şifrə ən azı bir kiçik hərf içerməlidir")
+        .regex(/\d/, "Şifrə ən azı bir rəqəm içerməlidir"),
+    confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Şifrələr eyni olmalıdır",
+    path: ['confirmPassword'], // Hangi alanın hatalı olduğunu belirtir
+});
+
 
 export const RegisterV2 = () => {
+
+    const { toast } = useToast();
+    const navigate = useNavigate();
+    const location = useLocation();  // To receive any potential data from OTPVerification
+
+    // Initialize form data, taking into account potential data from OTPVerification
+    const initialState = location.state?.formData || {
+        username: '',
+        phoneNumber: '',
+        password: '',
+        confirmPassword: '',
+    };
+
+    const [formData, setFormData] = useState(initialState);  // Preload from potential state
+    const [errors, setErrors] = useState<any>({});
+
+    // Reset resend attempts when phone number changes in OTPVerification and user comes back
+    const [resendAttempts, setResendAttempts] = useState(0);  // Track resend attempts
+
+    useEffect(() => {
+        if (location.state?.resetAttempts) {
+            setResendAttempts(0);  // Reset resend attempts if the user changed their phone number
+        }
+    }, [location.state]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        if (name === 'phoneNumber' && value.length > 9) return;
+
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Form validation
+        const validation = registerSchema.safeParse(formData);
+        if (!validation.success) {
+            const formattedErrors: any = {};
+            validation.error.errors.forEach((err) => {
+                formattedErrors[err.path[0]] = err.message;
+            });
+            setErrors(formattedErrors);
+            return;
+        }
+
+        setErrors({});  // Clear errors if form is valid
+
+        // Redirect to OTPVerification page with form data
+        navigate('/otp-verification', { state: { formData, resetAttempts: true } });
+    };
+
     return (
         <div
             className=" bg-cal-primary 2xl:bg-cal-primary flex min-h-screen w-full flex-col items-center justify-center"
@@ -18,7 +95,32 @@ export const RegisterV2 = () => {
                         className="text-subtle text-base font-medium leading-5">Zamanını idarə etməyin ən rahat
                         yolu</p></div>
                     <div className="mt-12">
-                        <form className="flex flex-col gap-4">
+                        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                            <div>
+                                <div className=""><label
+                                    className="text-emphasis mb-2 block text-sm font-medium leading-none"
+                                    htmlFor=":r0:">İstifadəçi adı</label>
+                                    <div dir="ltr"
+                                         className="focus-within:ring-cal-button-hover group relative mb-1 flex
+                                         items-center rounded-md transition focus-within:outline-none focus-within:ring-2"
+                                    >
+                                        <input data-testid="signup-usernamefield" id=":r0:"
+                                               className={`hover:border-emphasis border-default  placeholder:text-muted
+                                               text-gray-700 placeholder:text-gray-400 focus:ring-brand-default
+                                               focus:border-subtle mb-2 block h-9 rounded-md border px-3 py-2 text-sm
+                                               leading-4 transition focus:outline-none focus:ring-2 w-full
+                                               disabled:bg-subtle disabled:hover:border-subtle
+                                               disabled:cursor-not-allowed border-l-0 !my-0 !ring-0 
+                                               ${errors.username ? 'border-red-500' : ''}`}
+                                               name="username" type={"text"} onChange={handleChange}
+                                               value={formData.username}/>
+
+                                    </div>
+                                </div>
+                                <div className="text-gray text-default flex items-center text-sm">
+                                    <div className="text-sm "></div>
+                                </div>
+                            </div>
                             <div>
                                 <div className=""><label
                                     className="text-emphasis mb-2 block text-sm font-medium leading-none"
@@ -41,13 +143,16 @@ export const RegisterV2 = () => {
                                         </div>
                                         <input data-testid="signup-usernamefield" id=":r0:"
                                                placeholder="Telefon nömrəsi"
-                                               className="hover:border-emphasis border-default  placeholder:text-muted
+                                               className={`hover:border-emphasis border-default  placeholder:text-muted
                                                text-gray-700 placeholder:text-gray-400 focus:ring-brand-default
                                                focus:border-subtle mb-2 block h-9 rounded-md border px-3 py-2 text-sm
                                                leading-4 transition focus:outline-none focus:ring-2 w-full
                                                disabled:bg-subtle disabled:hover:border-subtle
-                                               disabled:cursor-not-allowed rounded-l-none border-l-0 !my-0 !ring-0"
-                                               name="username" type={"number"}/></div>
+                                               disabled:cursor-not-allowed rounded-l-none border-l-0 !my-0 !ring-0 ${errors.phoneNumber ? 'border-red-500' : ''}`}
+                                               name="phoneNumber" type={"number"} onChange={handleChange}
+                                               value={formData.phoneNumber}/>
+
+                                    </div>
                                 </div>
                                 <div className="text-gray text-default flex items-center text-sm">
                                     <div className="text-sm "></div>
@@ -63,8 +168,16 @@ export const RegisterV2 = () => {
                                      rounded-md transition focus-within:outline-none focus-within:ring-2">
                                     <input data-testid="signup-passwordfield" id=":r2:"
                                            type="password" placeholder="•••••••••••••"
-                                           className="placeholder:text-gray-300 hover:border-emphasis dark:focus:border-emphasis border-default bg-default placeholder:text-muted text-emphasis focus:ring-brand-default focus:border-subtle block h-9 rounded-md border px-3 py-2 text-sm leading-4 transition focus:outline-none focus:ring-2 w-full addon-wrapper mb-0 ltr:border-r-0 ltr:pr-10 rtl:border-l-0 rtl:pl-10 disabled:bg-subtle disabled:hover:border-subtle disabled:cursor-not-allowed rounded-r-none border-r-0 !my-0 !ring-0"
-                                           name="password"/>
+                                           className={`placeholder:text-gray-300 hover:border-emphasis 
+                                            border-default bg-default placeholder:text-muted text-emphasis 
+                                            focus:ring-brand-default focus:border-subtle block h-9 rounded-md border 
+                                            px-3 py-2 text-sm leading-4 transition focus:outline-none focus:ring-2 
+                                            w-full addon-wrapper mb-0 ltr:border-r-0 ltr:pr-10 rtl:border-l-0 rtl:pl-10 
+                                            disabled:bg-subtle disabled:hover:border-subtle disabled:cursor-not-allowed 
+                                            ${errors.password ? 'border-red-500' : ''}
+                                            rounded-r-none border-r-0 !my-0 !ring-0`}
+                                           name="password" onChange={handleChange}
+                                           value={formData.password}/>
                                     <div
                                         className="addon-wrapper border-default [input:hover_+_&amp;]:border-emphasis
                                         [input:hover_+_&amp;]:border-l-default [&amp;:has(+_input:hover)]:border-emphasis
@@ -127,8 +240,16 @@ export const RegisterV2 = () => {
                                      rounded-md transition focus-within:outline-none focus-within:ring-2">
                                     <input data-testid="signup-passwordfield" id=":r2:"
                                            type="password" placeholder="•••••••••••••"
-                                           className="placeholder:text-gray-300 hover:border-emphasis dark:focus:border-emphasis border-default bg-default placeholder:text-muted text-emphasis focus:ring-brand-default focus:border-subtle block h-9 rounded-md border px-3 py-2 text-sm leading-4 transition focus:outline-none focus:ring-2 w-full addon-wrapper mb-0 ltr:border-r-0 ltr:pr-10 rtl:border-l-0 rtl:pl-10 disabled:bg-subtle disabled:hover:border-subtle disabled:cursor-not-allowed rounded-r-none border-r-0 !my-0 !ring-0"
-                                           name="password"/>
+                                           className={`placeholder:text-gray-300 hover:border-emphasis 
+                                           border-default bg-default placeholder:text-muted text-emphasis 
+                                           focus:ring-brand-default focus:border-subtle block h-9 rounded-md 
+                                           border px-3 py-2 text-sm leading-4 transition focus:outline-none 
+                                           focus:ring-2 w-full addon-wrapper mb-0 ltr:border-r-0 ltr:pr-10 
+                                           rtl:border-l-0 rtl:pl-10 disabled:bg-subtle disabled:hover:border-subtle 
+                                           disabled:cursor-not-allowed rounded-r-none border-r-0 !my-0 !ring-0 
+                                           ${errors.confirmPassword ? 'border-red-500' : ''}`}
+                                           name="confirmPassword" onChange={handleChange}
+                                           value={formData.confirmPassword}/>
                                     <div
                                         className="addon-wrapper border-default [input:hover_+_&amp;]:border-emphasis
                                         [input:hover_+_&amp;]:border-l-default [&amp;:has(+_input:hover)]:border-emphasis

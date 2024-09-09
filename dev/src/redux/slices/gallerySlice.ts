@@ -31,6 +31,10 @@ const debtorSlice = apiSlice.injectEndpoints({
             readGalleries: builder.query({
                 query: () => ({
                     url: `/galleries`,
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                        'Content-Type': 'application/json',
+                    },
                     method: "GET",
                 }),
                 providesTags: ['galleries'],

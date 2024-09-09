@@ -181,8 +181,9 @@ export const MainPage = () => {
     const [data, setData] = useState<Service[]>([]);
 
     const fetchData = async () => {
-        const url = 'http://109.199.110.107:8082/api/specialist-service';
-        const token = localStorage.getItem('token');
+        const url = 'http://109.199.110.107:8082/api/specialist-service/26';
+        const token = localStorage.getItem('accessToken');
+        console.log('Token:', token)
 
         try {
             const response = await fetch(url, {
@@ -200,15 +201,23 @@ export const MainPage = () => {
             const responseData = await response.json();
             const serviceData = responseData.data;
 
-            const payments = serviceData.map((item: Service) => ({
-                id: item.id,
-                amount: item.price,
+            // const payments = serviceData.map((item: Service) => ({
+            //     id: item.id,
+            //     amount: item.price,
+            //     status: 'pending', // or another relevant field
+            //     service: item.name,
+            //     duration: `${item.duration} dəqiqə`,
+            // }));
+            const payments = {
+                id: serviceData.id,
+                amount: serviceData.price,
                 status: 'pending', // or another relevant field
-                service: item.name,
-                duration: `${item.duration} dəqiqə`,
-            }));
+                service: serviceData.name,
+                duration: `${serviceData.duration} dəqiqə`,
+            };
 
-            setData(payments);
+            // @ts-ignore
+            setData([payments]);
             console.log('Mapped Data:', payments);
         } catch (error) {
             console.error('Error fetching data:', error);

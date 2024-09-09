@@ -7,6 +7,10 @@ const debtorSlice = apiSlice.injectEndpoints({
             readProducts: builder.query({
                 query: () => ({
                     url: `/products`,
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                        'Content-Type': 'application/json',
+                    },
                     method: "GET",
                 }),
                 providesTags: ['products'],

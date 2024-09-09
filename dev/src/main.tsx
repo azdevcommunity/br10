@@ -13,7 +13,8 @@ import { store } from './redux/store.ts';
 import { AuthProvider } from './AuthProvider.tsx';  // AuthProvider import edin
 import ProtectedRoute from './ProtectedRoute.tsx';
 import Logout from "@/Logout.tsx";
-import {RegisterV2} from "@/layouts/register/RegisterV2.tsx";  // ProtectedRoute import edin
+import {RegisterV2} from "@/layouts/register/RegisterV2.tsx";
+import {OTPVerification} from "@/layouts/register/OTPVerification.tsx";  // ProtectedRoute import edin
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
                 <UserProfilePage />
             </ProtectedRoute>
         ),
+    },
+    {
+        path: '/otp-verification',  // Add route for OTP Verification
+        element: <OTPVerification />,  // Reference the OTPVerification component
     },
     {
         path: '/main',
