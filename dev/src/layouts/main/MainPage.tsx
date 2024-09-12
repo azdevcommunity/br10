@@ -1,117 +1,28 @@
-import { Spacer } from "@nextui-org/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { columns, Service } from "@/data/columns";
-import { DataTable } from "@/data/data-table";
-import { GalleryComponent } from "@/components/gallery-component";
-import { useIsMobile } from "@/hooks/useIsMobile.ts";
-import { useToast } from "@/components/ui/use-toast";
-import React, { useEffect, useState } from "react";
-import { Toaster } from "@/components/ui/toaster.tsx";
-import { StepperDemo } from "@/components/StepperTesting.tsx";
-import { ProductsComponent } from "@/components/ProductsComponent";
-
-// async function getData(): Promise<Service[]> {
-//     return [
-//         {
-//             id: "728ed52f",
-//             amount: 10,
-//             status: "pending",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b8",
-//             amount: 20,
-//             status: "processing",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b9",
-//             amount: 30,
-//             status: "success",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b0",
-//             amount: 40,
-//             status: "failed",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b1",
-//             amount: 50,
-//             status: "pending",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b2",
-//             amount: 60,
-//             status: "processing",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b3",
-//             amount: 70,
-//             status: "success",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b4",
-//             amount: 80,
-//             status: "failed",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b5",
-//             amount: 90,
-//             status: "pending",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b6",
-//             amount: 100,
-//             status: "processing",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b7",
-//             amount: 110,
-//             status: "success",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//         {
-//             id: "f3a2f6b8",
-//             amount: 120,
-//             status: "failed",
-//             service: "Saç qırxmaq",
-//             duration: "10 dəqiqə",
-//         },
-//     ];
-// }
+import {Spacer} from "@nextui-org/react";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {columns, Service} from "@/data/columns";
+import {DataTable} from "@/data/data-table";
+import {GalleryComponent} from "@/components/gallery-component";
+import {useIsMobile} from "@/hooks/useIsMobile.ts";
+import {useToast} from "@/components/ui/use-toast";
+import React, {useEffect, useState} from "react";
+import {Toaster} from "@/components/ui/toaster.tsx";
+import {ProductsComponent} from "@/components/ProductsComponent";
+import {Booking} from "@/components/Booking.tsx";
 
 const AvatarSection = () => (
     <div className="flex flex-row items-center">
         <Avatar className="h-14 w-14 rounded-xl cursor-pointer">
-            <AvatarImage src="https://randomuser.me/api/portraits/men/59.jpg" />
+            <AvatarImage src="https://randomuser.me/api/portraits/men/59.jpg"/>
             <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <Spacer x={6} />
+        <Spacer x={6}/>
         <span className="font-bold text-xl max-sm:text-lg">Yusif Hasanov</span>
     </div>
 );
 
-const IconButton = ({ children, onClick }: { children: React.ReactNode, onClick?: () => void }) => {
+const IconButton = ({children, onClick}: { children: React.ReactNode, onClick?: () => void }) => {
     return (
         <div
             className={`cursor-pointer w-32 h-9 rounded-xl flex justify-center items-center bg-blue-200 text-blue-700 
@@ -136,7 +47,7 @@ const InfoSection = () => (
 
 const AddressSection = () => {
 
-    const { toast } = useToast();
+    const {toast} = useToast();
 
     return (
         <div
@@ -169,7 +80,7 @@ const AddressSection = () => {
                     </svg>
                 </IconButton>
             </div>
-            <Toaster />
+            <Toaster/>
 
         </div>
     );
@@ -210,10 +121,12 @@ export const MainPage = () => {
             // }));
             const payments = {
                 id: serviceData.id,
-                amount: serviceData.price,
-                status: 'pending', // or another relevant field
-                service: serviceData.name,
-                duration: `${serviceData.duration} dəqiqə`,
+                specialistUserId: serviceData.specialistUserId,
+                duration: serviceData.duration,
+                name: serviceData.name,
+                price: serviceData.price,
+                description: serviceData.description,
+                image: serviceData.image
             };
 
             // @ts-ignore
@@ -238,6 +151,7 @@ export const MainPage = () => {
 
     useEffect(() => {
         console.log('Selected Row IDs:', selectedRowIds);
+        console.log('Data:', data);
     }, [selectedRowIds]);
 
 
@@ -254,13 +168,13 @@ export const MainPage = () => {
                     <div className={`max-[320px]:h-[21rem] max-sm:h-[21rem] h-[38rem] rounded-3xl shadow-lg lg:w-full 
                         w-80 bg-white pt-10 px-10 max-sm:px-0 max-sm:py-0 max-sm:pt-3 max-[320px]:px-3 max-[320px]:pt-8 
                         max-[320px]:shadow-none mb-3 relative`}>
-                        <DataTable columns={columns} data={data} onSelectionChange={handleSelectionChange} />
+                        <DataTable columns={columns} data={data} onSelectionChange={handleSelectionChange}/>
                     </div>
                 </TabsContent>
                 <TabsContent value="gallery">
                     <div className="max-sm:h-[23rem] h-[38rem] rounded-3xl shadow-lg lg:w-full w-80 bg-white pt-10
                         px-10 overflow-auto max-[320px]:px-5 max-[320px]:pt-5 mb-3">
-                        <GalleryComponent />
+                        <GalleryComponent/>
                     </div>
                 </TabsContent>
                 {isMobile && (
@@ -269,7 +183,7 @@ export const MainPage = () => {
                             pt-10 px-10 overflow-auto max-[320px]:px-5 max-[320px]:pt-5 mb-3">
                             <div>
                                 <span className="font-bold text-2xl">Məlumat</span>
-                                <Spacer y={2} />
+                                <Spacer y={2}/>
                                 <span className="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                     Aliquam auctor, nunc nec ultricies.</span>
                             </div>
@@ -279,7 +193,7 @@ export const MainPage = () => {
                 <TabsContent value="products">
                     <div className="max-sm:h-[23rem] h-[38rem] rounded-3xl shadow-lg lg:w-full w-80 bg-white pt-10
                         px-10 overflow-auto max-[320px]:px-5 max-[320px]:pt-5 mb-3">
-                        <ProductsComponent />
+                        <ProductsComponent/>
                     </div>
                 </TabsContent>
             </Tabs>
@@ -293,11 +207,11 @@ export const MainPage = () => {
                 <div className="rounded-3xl w-80 max-sm:w-full max-sm:rounded-none max-sm:shadow-none max-sm:px-0 p-10
                 pt-0 max-[320px]:py-6 flex flex-col justify-between lg:mx-10 max-[320px]:w-72 mt-10 max-sm:mt-7
                 shadow-xl space-y-8 max-[320px]:space-y-7">
-                    <AvatarSection />
+                    <AvatarSection/>
                     <div className="flex flex-row space-x-4 max-sm:space-x-3 justify-center items-center">
                         <IconButton>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                className="size-6 max-sm:h-6 max-sm:w-6">
+                                 className="size-6 max-sm:h-6 max-sm:w-6">
                                 <path
                                     fillRule="evenodd"
                                     d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875
@@ -311,7 +225,7 @@ export const MainPage = () => {
                         </IconButton>
                         <IconButton>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                className="size-6 max-sm:h-6 max-sm:w-6">
+                                 className="size-6 max-sm:h-6 max-sm:w-6">
                                 <path
                                     fillRule="evenodd"
                                     d="M4.804 21.644A6.707 6.707 0 0 0 6 21.75a6.721 6.721 0 0 0 3.583-1.029c.774.182
@@ -326,17 +240,13 @@ export const MainPage = () => {
                         </IconButton>
                     </div>
                 </div>
-                <InfoSection />
-                <AddressSection />
+                <InfoSection/>
+                <AddressSection/>
             </div>
-            <div className={`w-full flex lg:pr-10 max-sm:px-0 px-10 max-sm:justify-center max-sm:items-center 
-            max-[320px]:w-full max-[320px]:pt-8 p-0`}>
+            <div className={`w-full flex lg:pr-10 max-sm:px-0 px-10 max-sm:justify-center max-sm:items-center h-fit
+            max-[320px]:w-full max-[320px]:pt-8 p-0 `}>
                 {selectedRowIds.length ? (
-                    <div className={`max-[320px]:h-[21rem] max-sm:h-[29rem] h-[38rem] rounded-3xl shadow-lg lg:w-full mt-12
-                        w-80 bg-white pt-10 px-10 max-sm:px-0 max-sm:py-0 max-sm:pt-3 max-[320px]:px-3 max-[320px]:pt-8 
-                        max-[320px]:shadow-none mb-3 relative`}>
-                        {/*<StepperDemo />*/}
-                    </div>
+                    <Booking data={data} selectedIds={selectedRowIds}/>
                 ) : tableComponent()}
             </div>
         </div>

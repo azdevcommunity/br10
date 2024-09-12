@@ -41,31 +41,42 @@ export const columns: ColumnDef<Service>[] = [
         ),
     },
     {
-        accessorKey: "service",
+        accessorKey: "name",
         header: () => <div>Xidmət</div>,
         cell: ({ row }) => {
-            const service:string = row.getValue("service");
-            return <div>{service}</div>;
+            const name:string = row.getValue("name");
+            return <div className={" w-max"}>{name}</div>;
         },
     },
     {
         accessorKey: "duration",
         header: () => <div className="text-right flex">Duration</div>,
         cell: ({ row }) => {
-            const duration:string = row.getValue("duration");
-            return <Badge variant="outline" className={"cursor-default"}>{duration}</Badge>;
+            // Get the duration value as a string and convert it to a number
+            const duration: number = parseInt(row.getValue("duration"), 10);
+
+            // Calculate hours and remaining minutes
+            const hours = Math.floor(duration / 60);
+            const minutes = duration % 60;
+
+            // Format the duration for display
+            const formattedDuration =
+                hours > 0
+                    ? `${hours} saat${minutes > 0 ? ` ${minutes} dəqiqə` : ""}`
+                    : `${minutes} dəqiqə`;
+
+            return <Badge variant="outline" className={"cursor-default w-max"}>{formattedDuration}</Badge>;
         },
     },
     {
-        accessorKey: "amount",
+        accessorKey: "price",
         header: () => <div className="text-right">Qiymət</div>,
         cell: ({ row }) => {
-            const amount:number = row.getValue("amount");
+            const price:number = row.getValue("price");
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "AZN",
-            }).format(amount);
-
+            }).format(price);
             return <div className="text-right font-medium">{formatted}</div>;
         },
     },
