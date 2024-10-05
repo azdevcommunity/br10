@@ -92,7 +92,7 @@ export const MainPage = () => {
     const [data, setData] = useState<Service[]>([]);
 
     const fetchData = async () => {
-        const url = `${import.meta.env.VITE_BR10_API_BASE_URL}/api/specialist-service/4`;
+        const url = `${import.meta.env.VITE_BR10_API_BASE_URL}/specialist-service/4`;
         const token = localStorage.getItem('accessToken');
         console.log('Token:', token)
 
