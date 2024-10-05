@@ -92,7 +92,7 @@ export const MainPage = () => {
     const [data, setData] = useState<Service[]>([]);
 
     const fetchData = async () => {
-        const url = 'http://109.199.110.107:8082/api/specialist-service/26';
+        const url = `${import.meta.env.VITE_BR10_API_BASE_URL}/api/specialist-service/4`;
         const token = localStorage.getItem('accessToken');
         console.log('Token:', token)
 
@@ -201,7 +201,7 @@ export const MainPage = () => {
     }
 
     return (
-        <div className="h-screen w-full flex lg:flex-row flex-col pt-10 max-[320px]:pt-0 max-sm:px-10">
+        <div className="h-screen w-full flex lg:flex-row flex-col pt-10 max-[320px]:pt-0 max-sm:px-3">
             <div
                 className="flex flex-col items-start justify-start space-y-5 max-sm:justify-center max-sm:items-center">
                 <div className="rounded-3xl w-80 max-sm:w-full max-sm:rounded-none max-sm:shadow-none max-sm:px-0 p-10

@@ -1,8 +1,10 @@
 import {Service} from "@/data/columns.tsx";
 import React from "react";
 import {Calendar} from "@/components/ui/calendar.tsx";
-import {Tabs, TabsContent, TabsTrigger} from "./ui/tabs";
+import {Tabs, TabsTrigger} from "./ui/tabs";
 import {TabsList} from "@/components/ui/tabs.tsx";
+import {az} from "date-fns/locale";
+import {Button} from "@/components/ui/button.tsx";
 
 interface BookingProps {
     data: Service[];
@@ -23,12 +25,7 @@ export const Booking: React.FC<BookingProps> = ({data, selectedIds}) => {
     const [date, setDate] = React.useState<Date | undefined>(new Date())
 
     const handleDateChange = (date: Date) => {
-        // if date selected is after 2 days, show error
-        if (date > new Date(new Date().setDate(new Date().getDate() + 1))) {
-            return;
-        }else{
-            setDate(date);
-        }
+        setDate(date);
     }
 
     return (
@@ -67,23 +64,37 @@ export const Booking: React.FC<BookingProps> = ({data, selectedIds}) => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className={"flex space-x-10 max-sm:space-x-0 h-[27rem] max-sm:flex-col"}>
                     <Calendar
                         mode="single"
                         selected={date}
+                        locale={az}
+                        fromDate={new Date()}
+                        toDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                         onSelect={handleDateChange}
                         className="rounded-2xl border w-fit max-sm:w-full justify-center items-center flex"
                     />
-                    <div className={"flex flex-col w-full mt-5"}>
-                        <div className={"flex items-center justify-between w-full"}>
-                            <p>Çərşənbə</p>
-                            <Tabs defaultValue="24s" className="">
-                                <TabsList>
-                                    <TabsTrigger value="12s">12s</TabsTrigger>
-                                    <TabsTrigger value="24s">24s</TabsTrigger>
-                                </TabsList>
-                            </Tabs>
-                        </div>
+                    <div className={`grid grid-cols-2 overflow-x-auto h-full max-sm:w-full w-64 gap-3
+                    max-sm:overflow-x-visible max-sm:mt-5`}>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>09:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>09:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>10:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>10:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>11:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>11:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>12:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>12:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>13:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>13:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>14:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>14:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>15:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>15:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>16:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>16:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>17:00</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>17:30</Button>
+                        <Button variant="outline" className={" hover:border hover:border-black"}>18:00</Button>
                     </div>
                 </div>
             </div>
