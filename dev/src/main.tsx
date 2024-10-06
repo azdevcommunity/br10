@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         element: <OTPVerification/>,  // Reference the OTPVerification component
     },
     {
-        path: '/main',
+        path: '/main/:specialistId',
         element: (
             <ProtectedRoute>
                 <MainPage/>

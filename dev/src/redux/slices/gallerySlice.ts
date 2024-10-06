@@ -29,8 +29,8 @@ const debtorSlice = apiSlice.injectEndpoints({
             //     invalidatesTags: ["cashflow"]
             // }),
             readGalleries: builder.query({
-                query: () => ({
-                    url: `/galleries`,
+                query: (num) => ({
+                    url: `/galleries/specialist/${num}`,
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                         'Content-Type': 'application/json',

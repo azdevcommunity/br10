@@ -10,6 +10,7 @@ import React, {useEffect, useState} from "react";
 import {Toaster} from "@/components/ui/toaster.tsx";
 import {ProductsComponent} from "@/components/ProductsComponent";
 import {Booking} from "@/components/Booking.tsx";
+import {useParams} from "react-router-dom";
 
 const AvatarSection = () => (
     <div className="flex flex-row items-center">
@@ -89,52 +90,30 @@ const AddressSection = () => {
 
 export const MainPage = () => {
 
+    const {specialistId} = useParams();
+
     const [data, setData] = useState<Service[]>([]);
 
-    const fetchData = async () => {
-        const url = `${import.meta.env.VITE_BR10_API_BASE_URL}/specialist-service/4`;
+    const fetchData =  () => {
+        const url = `${import.meta.env.VITE_BR10_API_BASE_URL}/specialist-service/specialist/${specialistId}`;
         const token = localStorage.getItem('accessToken');
         console.log('Token:', token)
 
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const responseData = await response.json();
-            const serviceData = responseData.data;
-
-            // const payments = serviceData.map((item: Service) => ({
-            //     id: item.id,
-            //     amount: item.price,
-            //     status: 'pending', // or another relevant field
-            //     service: item.name,
-            //     duration: `${item.duration} dəqiqə`,
-            // }));
-            const payments = {
-                id: serviceData.id,
-                specialistUserId: serviceData.specialistUserId,
-                duration: serviceData.duration,
-                name: serviceData.name,
-                price: serviceData.price,
-                description: serviceData.description,
-                image: serviceData.image
-            };
-
-            // @ts-ignore
-            setData([payments]);
-            console.log('Mapped Data:', payments);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(r => r.json())
+            .then(res => res.data)
+            .then(serviceData => {
+                console.log(serviceData)
+                setData(serviceData);
+            })
+            .catch(e => console.log(e))
     };
 
     useEffect(() => {

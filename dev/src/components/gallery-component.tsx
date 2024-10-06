@@ -2,10 +2,11 @@ import { useReadGalleriesQuery } from "@/redux/slices/gallerySlice";
 import { Link } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { date } from "zod";
+import {useParams} from "react-router-dom";
 
 export function GalleryComponent() {
-
-  const {data, error,isError} = useReadGalleriesQuery(undefined);
+    const {specialistId} = useParams();
+  const {data, error,isError} = useReadGalleriesQuery(specialistId);
   
   useEffect(() => {
     console.log(data);
