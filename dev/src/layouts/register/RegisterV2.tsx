@@ -1,4 +1,3 @@
-import {Input} from "@/components/ui/input.tsx";
 import React, {useEffect, useState} from "react";
 import {z} from "zod";
 import {useToast} from "@/components/ui/use-toast.ts";
@@ -7,11 +6,11 @@ import {useLocation, useNavigate} from "react-router-dom";
 const registerSchema = z.object({
     phoneNumber: z
         .string()
-        .length(9, { message: "Telefon nömrəsi 9 rəqəmli olmalıdır" })
+        .length(9, {message: "Telefon nömrəsi 9 rəqəmli olmalıdır"})
         .regex(/^\d+$/, "Yalnız rəqəmlər qəbul edilir"),
     password: z
         .string()
-        .min(7, { message: "Şifrə ən azı 7 simvol olmalıdır" })
+        .min(7, {message: "Şifrə ən azı 7 simvol olmalıdır"})
         .regex(/[A-Z]/, "Şifrə ən azı bir böyük hərf içerməlidir")
         .regex(/[a-z]/, "Şifrə ən azı bir kiçik hərf içerməlidir")
         .regex(/\d/, "Şifrə ən azı bir rəqəm içerməlidir"),
@@ -24,7 +23,7 @@ const registerSchema = z.object({
 
 export const RegisterV2 = () => {
 
-    const { toast } = useToast();
+    const {toast} = useToast();
     const navigate = useNavigate();
     const location = useLocation();  // To receive any potential data from OTPVerification
 
@@ -49,7 +48,7 @@ export const RegisterV2 = () => {
     }, [location.state]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
 
         if (name === 'phoneNumber' && value.length > 9) return;
 
@@ -76,7 +75,7 @@ export const RegisterV2 = () => {
         setErrors({});  // Clear errors if form is valid
 
         // Redirect to OTPVerification page with form data
-        navigate('/otp-verification', { state: { formData, resetAttempts: true } });
+        navigate('/otp-verification', {state: {formData, resetAttempts: true}});
     };
 
     return (
