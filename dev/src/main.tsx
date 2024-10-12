@@ -13,7 +13,8 @@ import {AuthProvider} from './AuthProvider.tsx'; // AuthProvider import edin
 import ProtectedRoute from './ProtectedRoute.tsx';
 import Logout from "@/Logout.tsx";
 import {RegisterV2} from "@/layouts/register/RegisterV2.tsx";
-import {OTPVerification} from "@/layouts/register/OTPVerification.tsx"; // ProtectedRoute import edin
+import {OTPVerification} from "@/layouts/register/OTPVerification.tsx";
+import ReservationSuccessCard from "@/components/ReservationSuccessCard.tsx"; // ProtectedRoute import edin
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,14 @@ const router = createBrowserRouter([
         element: (
             <ProtectedRoute>
                 <MainPage/>
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/booking/:bookingId',
+        element: (
+            <ProtectedRoute>
+                <ReservationSuccessCard/>
             </ProtectedRoute>
         ),
     },

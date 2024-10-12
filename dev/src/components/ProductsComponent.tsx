@@ -88,29 +88,38 @@ export function ProductsComponent() {
 
                             <div>
                                 <div className="flex justify-between items-start p-4">
-                                    <div className="">
-                                        <motion.h3
-                                            layoutId={`title-${active.name}-${id}`}
-                                            className="font-bold text-neutral-700 dark:text-neutral-200"
+                                    <div className="flex flex-col justify-between">
+                                        <div>
+                                            <motion.h3
+                                                layoutId={`title-${active.name}-${id}`}
+                                                className="font-bold text-neutral-700 dark:text-neutral-200"
+                                            >
+                                                {active.name}
+                                            </motion.h3>
+                                            <motion.p
+                                                layoutId={`description-${active.description}-${id}`}
+                                                className="text-neutral-600 dark:text-neutral-400"
+                                            >
+                                                {active.description}
+                                            </motion.p>
+                                        </div>
+                                        <motion.button
+                                            layoutId={`button-${active.name}-${id}`}
+                                            onClick={() => setActive(null)}
+                                            className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-primary hover:text-white text-black mt-4 md:mt-0"
                                         >
-                                            {active.name}
-                                        </motion.h3>
-                                        <motion.p
-                                            layoutId={`description-${active.description}-${id}`}
-                                            className="text-neutral-600 dark:text-neutral-400"
-                                        >
-                                            {active.description}
-                                        </motion.p>
+                                            Bağla
+                                        </motion.button>
                                     </div>
 
-                                    <motion.a
-                                        layoutId={`button-${active.name}-${id}`}
-                                        href={active.ctaLink}
-                                        target="_blank"
-                                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
-                                    >
-                                        {active.ctaText}
-                                    </motion.a>
+                                    {/*<motion.a*/}
+                                    {/*    layoutId={`button-${active.name}-${id}`}*/}
+                                    {/*    href={active.ctaLink}*/}
+                                    {/*    target="_blank"*/}
+                                    {/*    className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"*/}
+                                    {/*>*/}
+                                    {/*    {active.ctaText}*/}
+                                    {/*</motion.a>*/}
                                 </div>
                                 <div className="pt-4 relative px-4">
                                     <motion.div
@@ -165,9 +174,9 @@ export function ProductsComponent() {
                         </div>
                         <motion.button
                             layoutId={`button-${card.name}-${id}`}
-                            className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-green-500 hover:text-white text-black mt-4 md:mt-0"
+                            className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-primary hover:text-white text-black mt-4 md:mt-0"
                         >
-                            {card.ctaText}
+                            Ətraflı
                         </motion.button>
                     </motion.div>
                 ))}

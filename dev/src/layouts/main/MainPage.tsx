@@ -11,8 +11,9 @@ import {Toaster} from "@/components/ui/toaster.tsx";
 import {ProductsComponent} from "@/components/ProductsComponent";
 import {Booking} from "@/components/Booking.tsx";
 import {useParams} from "react-router-dom";
-import {TokenUtil} from "@/util/TokenUtil.ts";
 import {HttpClient} from "@/util/HttpClient.ts";
+import {CopyIconSvg} from "@/assets/CopyIconSvg.tsx";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
 
 const AvatarSection = ({data}) => {
     return (
@@ -23,8 +24,18 @@ const AvatarSection = ({data}) => {
             </Avatar>
             <Spacer x={6}/>
             <div>
-                <div className="font-bold text-xl max-sm:text-lg">{data?.username}</div>
-                <div className="font-bold text-md  max-sm:text-lg">{data?.speciality}</div>
+                {
+                    data ?
+                        <>
+                            <div className="font-bold text-xl max-sm:text-lg">{data?.username}</div>
+                            <div className="font-bold text-md  max-sm:text-lg">{data?.speciality}</div>
+                        </>
+                        :
+                        <div className={"space-y-2"}>
+                            <Skeleton className="h-4 w-[100px]"/>
+                            <Skeleton className="h-4 w-[70px]"/>
+                        </div>
+                }
             </div>
         </div>
     )
@@ -33,7 +44,8 @@ const AvatarSection = ({data}) => {
 const IconButton = ({children, onClick}: { children: React.ReactNode, onClick?: () => void }) => {
     return (
         <div
-            className={`cursor-pointer w-32 h-9 rounded-xl flex justify-center items-center border border-primary 
+            className={`cursor-pointer w-32 h-9 rounded-xl flex justify-center items-center border border-primary border-dashed
+            transition-all duration-[250ms] ease-in-out hover:rounded-2xl
             font-bold max-sm:w-full`} onClick={onClick}>
             {children}
         </div>
@@ -53,14 +65,18 @@ const InfoSection = () => (
     </div>
 );
 
-const AddressSection = ({address}) => {
+const AddressSection = ({data}) => {
 
     const {toast} = useToast();
-
     return (
         <div
             className="w-80 h-32 rounded-3xl bg-white ml-10 shadow-xl mb-10 p-5 justify-between items-center lg:flex flex-col hidden">
-            <span className="text-lg">{address}</span>
+            {
+                data == undefined ?
+                    <Skeleton className="h-4 w-[200px]"/>
+                    : <span className="text-lg">{`${data.city} ${data.address}`}</span>
+            }
+
             <div className="flex justify-around w-full">
                 <IconButton>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
@@ -76,16 +92,7 @@ const AddressSection = ({address}) => {
                         description: "Məkan kopyalandı",
                     })
                 }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                        <path
-                            fillRule="evenodd"
-                            d="M10.5 3A1.501 1.501 0 0 0 9 4.5h6A1.5 1.5 0 0 0 13.5 3h-3Zm-2.693.178A3 3 0 0 1 10.5
-                            1.5h3a3 3 0 0 1 2.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3
-                            3 0 0 1-3 3H6.75a3 3 0 0 1-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107
-                            1.487-.15Z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
+                    <CopyIconSvg/>
                 </IconButton>
             </div>
             <Toaster/>
@@ -99,45 +106,25 @@ export const MainPage = () => {
 
     const {specialistId} = useParams();
     const [profileData, setProfileDataData] = useState<any>(null)
+    const [data, setData] = useState<Service[]>([]);
+    const isMobile = useIsMobile();
+    const [selectedRowIds, setSelectedRowIds] = useState<number[]>([]);
 
     useEffect(() => {
-        HttpClient.GET(`/specialist-profile/specialist/${specialistId}`)
+        HttpClient.get(`/specialist-profile/specialist/${specialistId}`)
             .then(response => response.json())
             .then(data => setProfileDataData(data.data))
             .catch(e => console.log(e))
-    }, [specialistId]);
-
-    const [data, setData] = useState<Service[]>([]);
-
-    const fetchData = () => {
-        const url = `${import.meta.env.VITE_BR10_API_BASE_URL}/specialist-service/specialist/${specialistId}`;
-        const token = TokenUtil.getAccessToken()
-        console.log('Token:', token)
-
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(r => r.json())
-            .then(res => res.data)
-            .then(serviceData => {
-                console.log(serviceData)
-                setData(serviceData);
-            })
-            .catch(e => console.log(e))
-    };
-
-    useEffect(() => {
-        fetchData();
     }, []);
 
-    const isMobile = useIsMobile();
 
-    const [selectedRowIds, setSelectedRowIds] = useState<number[]>([]);
+    useEffect(() => {
+        HttpClient.get(`/specialist-service/specialist/${specialistId}`)
+            .then(response => response.json())
+            .then(data => setData(data.data))
+            .catch(e => console.log(e))
+    }, []);
+
 
     const handleSelectionChange = (ids: number[]) => {
         setSelectedRowIds(ids);
@@ -235,7 +222,7 @@ export const MainPage = () => {
                     </div>
                 </div>
                 <InfoSection/>
-                <AddressSection address={`${profileData?.city} ${profileData?.address}` }/>
+                <AddressSection data={profileData}/>
             </div>
             <div className={`w-full flex lg:pr-10 max-sm:px-0 px-10 max-sm:justify-center max-sm:items-center h-fit
             max-[320px]:w-full max-[320px]:pt-8 p-0 `}>
