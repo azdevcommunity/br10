@@ -14,7 +14,8 @@ import ProtectedRoute from './ProtectedRoute.tsx';
 import Logout from "@/Logout.tsx";
 import {RegisterV2} from "@/layouts/register/RegisterV2.tsx";
 import {OTPVerification} from "@/layouts/register/OTPVerification.tsx";
-import ReservationSuccessCard from "@/components/ReservationSuccessCard.tsx"; // ProtectedRoute import edin
+import ReservationSuccessCard from "@/components/ReservationSuccessCard.tsx";
+import WebSocketClient from "@/components/Socket.tsx"; // ProtectedRoute import edin
 
 const router = createBrowserRouter([
     {
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
     {
         path: '/logout',
         element: <Logout/>,
+    },
+    {
+        path: '/socket',
+        element: <WebSocketClient/>,
     }
 ]);
 
