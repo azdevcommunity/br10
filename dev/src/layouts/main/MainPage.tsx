@@ -15,12 +15,10 @@ import {TokenUtil} from "@/util/TokenUtil.ts";
 import {HttpClient} from "@/util/HttpClient.ts";
 
 const AvatarSection = ({data}) => {
-
-
     return (
         <div className="flex flex-row items-center">
             <Avatar className="h-14 w-14 rounded-xl cursor-pointer">
-                <AvatarImage src="https://randomuser.me/api/portraits/men/59.jpg"/>
+                <AvatarImage src={data?.profilePicture}/>
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <Spacer x={6}/>
@@ -237,7 +235,7 @@ export const MainPage = () => {
                     </div>
                 </div>
                 <InfoSection/>
-                <AddressSection address={profileData?.address}/>
+                <AddressSection address={`${profileData?.city} ${profileData?.address}` }/>
             </div>
             <div className={`w-full flex lg:pr-10 max-sm:px-0 px-10 max-sm:justify-center max-sm:items-center h-fit
             max-[320px]:w-full max-[320px]:pt-8 p-0 `}>
