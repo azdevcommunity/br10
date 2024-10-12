@@ -11,12 +11,25 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from "@/redux/store.ts";
 import {decrementCountdown, incrementResendAttempts, startTimer} from "@/redux/slices/otpSlice.ts";
 import {Toaster} from "@/components/ui/toaster.tsx";
+import {useActivateUserVerifyOtpMutation} from "@/redux/slices/activateUserVerifyOtpSlice.ts";
+import {DeviceInfo} from "@/types.ts";
+import {useAuth} from "@/AuthProvider.tsx";
+import {data} from "autoprefixer";
+import {useResendOtpMutation} from "@/redux/slices/resendOtpSlice.ts";
 
 const FormSchema = z.object({
     pin: z.string().min(4, {message: "OTP şifrə 4 rəqəmli olmalıdır"}),
 });
 
 export function OTPVerification() {
+    const [activateUserVerifyOtp] = useActivateUserVerifyOtpMutation();
+    const [resendOtp] = useResendOtpMutation();
+    const [otpValues, setOtpValues] = useState<string>("");
+    const [activityId, setActivityId] = useState<string>("");
+    const {login} = useAuth();
+
+
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {pin: ""},
@@ -25,15 +38,35 @@ export function OTPVerification() {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    // const registerResult = location.state?.registerResult || {};  // Data passed from RegisterV2
+    const registerResult = JSON.parse(localStorage.getItem("registerResult" ) );  // Data passed from RegisterV2
+    const initialPhoneNumber = registerResult.phoneNumber;  // Save the initial phone number
+
+    useEffect(() => {
+        if (!location.state?.fromRegister) {
+            // Redirect back to the register page if the user didn't come from there
+            navigate('/');
+        }
+
+        console.log('qwe: ', registerResult)
+
+        setActivityId(registerResult?.activityId);
+
+        toast({
+            title: 'OTP',
+            description: registerResult?.data?.otp,
+            variant: 'default',
+            duration: 3000
+        });
+
+
+    }, [location.state, navigate]);
 
     // Select Redux state for OTP
     const {countdown, resendAttempts, phoneNumber, timerRunning} = useSelector((state: RootState) => state.otp);
 
-    const formData = location.state?.formData || {};  // Data passed from RegisterV2
-    const initialPhoneNumber = formData.phoneNumber;  // Save the initial phone number
 
     // State to track OTP input values
-    const [otpValues, setOtpValues] = useState<string>("");
 
     useEffect(() => {
         if (phoneNumber === initialPhoneNumber && timerRunning) {
@@ -47,13 +80,33 @@ export function OTPVerification() {
         }
     }, [initialPhoneNumber, dispatch, phoneNumber, timerRunning]);
 
-    const handleResendOTP = () => {
+    const handleResendOTP = async () => {
         if (resendAttempts < 3) {
             toast({
                 title: 'OTP göndərildi',
                 description: 'Yeni OTP göndərildi.',
                 variant: 'default',
             });
+
+            try {
+
+                const data = {
+                    phoneNumber: registerResult?.data?.phoneNumber,
+                }
+
+                const result = await resendOtp({data}).unwrap();
+                console.log("result", result);
+                toast({
+                    title: 'OTP',
+                    description: result.data?.otp,
+                    variant: 'default',
+                });
+
+                setActivityId(result.activityId)
+
+            } catch (error) {
+                console.error('Error resend OTP:', error);
+            }
 
             dispatch(incrementResendAttempts());
         } else {
@@ -67,44 +120,42 @@ export function OTPVerification() {
 
     const handleChangeNumber = () => {
         // Navigate back to RegisterV2 with form data
-        navigate('/register', {state: {formData}});
+        navigate('/register', {state: {formData: registerResult}});
     };
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         const otp = otpValues;
-        const requestBody = {
-            ...formData,
-            otp,
+        // const requestBody = {
+        //     ...registerResult,
+        //     otp,
+        // };
+
+        console.log('formData otp: ', registerResult);
+
+        const otpData = {
+            otp: otp,
+            phoneNumber: registerResult?.data?.phoneNumber,
+            deviceInfo: {
+                deviceId: "e1986237-1a60-4b2d-a836-50176d2d1947",
+                clientType: 1,
+                operatingSystem: "ios",
+                osVersion: "14",
+                appVersion: "12",
+                brand: "iphone",
+                model: "se2",
+            },
         };
 
-        try {
-            const response = await fetch(`${import.meta.env.VITE_BR10_API_BASE_URL}/auth/register`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(requestBody),
-            });
+        setActivityId(registerResult?.activityId)
 
-            if (response.ok) {
-                toast({
-                    title: 'Qeydiyyat uğurlu oldu',
-                    description: 'Hesabınız uğurla yaradıldı!',
-                    variant: 'default',
-                });
-                navigate('/login');
-            } else {
-                const errorData = await response.json();
-                toast({
-                    title: 'Xəta baş verdi',
-                    description: errorData.message || 'Qeydiyyat zamanı xəta baş verdi',
-                    variant: 'destructive',
-                });
-            }
+        try {
+            // Pass both otpData and activityId as separate parameters
+            const result = await activateUserVerifyOtp({otpData, activityId}).unwrap();
+            console.log('Result:', result);
+            login(result.data.accessToken)
+            navigate('/', {replace: true});
         } catch (error) {
-            toast({
-                title: 'Xəta baş verdi',
-                description: 'Qeydiyyat zamanı xəta baş verdi',
-                variant: 'destructive',
-            });
+            console.error('Error verifying OTP:', error);
         }
     };
 
@@ -115,6 +166,11 @@ export function OTPVerification() {
         const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
         const secs = (seconds % 60).toString().padStart(2, '0');
         return `${minutes}:${secs}`;
+    };
+
+    const handleOTPChange = (value: string) => {
+        setOtpValues(value);
+        form.setValue('pin', value);  // Synchronize with form's pin field
     };
 
     return (
@@ -129,12 +185,12 @@ export function OTPVerification() {
                                 <FormLabel className="text-xl font-bold">OTP Şifrə</FormLabel>
                                 <FormDescription className="text-sm text-gray-500">
                                     +994 ***
-                                    ** {formData.phoneNumber ? formData.phoneNumber.toString().substring(7, 9) : ''} nömrəsinə
+                                    ** {registerResult.phoneNumber ? registerResult.phoneNumber.toString().substring(7, 9) : ''} nömrəsinə
                                     göndərilən
                                     4 rəqəmli OTP şifrəni daxil et
                                 </FormDescription>
                                 <FormControl>
-                                    <InputOTP maxLength={4} {...field} onChange={(e) => setOtpValues(e)}
+                                    <InputOTP maxLength={4} {...field} onChange={handleOTPChange}
                                               value={otpValues}>
                                         <InputOTPGroup>
                                             {[...Array(4)].map((_, i) => (
@@ -174,6 +230,7 @@ export function OTPVerification() {
                     <Button
                         type="submit"
                         className="w-full"
+
                         disabled={!isOtpFilled}>
                         Təsdiq et
                     </Button>

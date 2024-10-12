@@ -3,7 +3,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {columns, Service} from "@/data/columns";
 import {DataTable} from "@/data/data-table";
-import {GalleryComponent} from "@/components/gallery-component";
+import GalleryComponent from "@/components/gallery-component";
 import {useIsMobile} from "@/hooks/useIsMobile.ts";
 import {useToast} from "@/components/ui/use-toast";
 import React, {useEffect, useState} from "react";
@@ -11,22 +11,31 @@ import {Toaster} from "@/components/ui/toaster.tsx";
 import {ProductsComponent} from "@/components/ProductsComponent";
 import {Booking} from "@/components/Booking.tsx";
 import {useParams} from "react-router-dom";
+import {TokenUtil} from "@/util/TokenUtil.ts";
+import {HttpClient} from "@/util/HttpClient.ts";
 
-const AvatarSection = () => (
-    <div className="flex flex-row items-center">
-        <Avatar className="h-14 w-14 rounded-xl cursor-pointer">
-            <AvatarImage src="https://randomuser.me/api/portraits/men/59.jpg"/>
-            <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <Spacer x={6}/>
-        <span className="font-bold text-xl max-sm:text-lg">Yusif Hasanov</span>
-    </div>
-);
+const AvatarSection = ({data}) => {
+
+
+    return (
+        <div className="flex flex-row items-center">
+            <Avatar className="h-14 w-14 rounded-xl cursor-pointer">
+                <AvatarImage src="https://randomuser.me/api/portraits/men/59.jpg"/>
+                <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <Spacer x={6}/>
+            <div>
+                <div className="font-bold text-xl max-sm:text-lg">{data?.username}</div>
+                <div className="font-bold text-md  max-sm:text-lg">{data?.speciality}</div>
+            </div>
+        </div>
+    )
+}
 
 const IconButton = ({children, onClick}: { children: React.ReactNode, onClick?: () => void }) => {
     return (
         <div
-            className={`cursor-pointer w-32 h-9 rounded-xl flex justify-center items-center bg-blue-200 text-blue-700 
+            className={`cursor-pointer w-32 h-9 rounded-xl flex justify-center items-center border border-primary 
             font-bold max-sm:w-full`} onClick={onClick}>
             {children}
         </div>
@@ -46,14 +55,14 @@ const InfoSection = () => (
     </div>
 );
 
-const AddressSection = () => {
+const AddressSection = ({address}) => {
 
     const {toast} = useToast();
 
     return (
         <div
             className="w-80 h-32 rounded-3xl bg-white ml-10 shadow-xl mb-10 p-5 justify-between items-center lg:flex flex-col hidden">
-            <span className="text-lg">Səməd Vurğun küçəsi 37, 6A</span>
+            <span className="text-lg">{address}</span>
             <div className="flex justify-around w-full">
                 <IconButton>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
@@ -91,12 +100,20 @@ const AddressSection = () => {
 export const MainPage = () => {
 
     const {specialistId} = useParams();
+    const [profileData, setProfileDataData] = useState<any>(null)
+
+    useEffect(() => {
+        HttpClient.GET(`/specialist-profile/specialist/${specialistId}`)
+            .then(response => response.json())
+            .then(data => setProfileDataData(data.data))
+            .catch(e => console.log(e))
+    }, [specialistId]);
 
     const [data, setData] = useState<Service[]>([]);
 
-    const fetchData =  () => {
+    const fetchData = () => {
         const url = `${import.meta.env.VITE_BR10_API_BASE_URL}/specialist-service/specialist/${specialistId}`;
-        const token = localStorage.getItem('accessToken');
+        const token = TokenUtil.getAccessToken()
         console.log('Token:', token)
 
 
@@ -186,7 +203,7 @@ export const MainPage = () => {
                 <div className="rounded-3xl w-80 max-sm:w-full max-sm:rounded-none max-sm:shadow-none max-sm:px-0 p-10
                 pt-0 max-[320px]:py-6 flex flex-col justify-between lg:mx-10 max-[320px]:w-72 mt-10 max-sm:mt-7
                 shadow-xl space-y-8 max-[320px]:space-y-7">
-                    <AvatarSection/>
+                    <AvatarSection data={profileData}/>
                     <div className="flex flex-row space-x-4 max-sm:space-x-3 justify-center items-center">
                         <IconButton>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -220,7 +237,7 @@ export const MainPage = () => {
                     </div>
                 </div>
                 <InfoSection/>
-                <AddressSection/>
+                <AddressSection address={profileData?.address}/>
             </div>
             <div className={`w-full flex lg:pr-10 max-sm:px-0 px-10 max-sm:justify-center max-sm:items-center h-fit
             max-[320px]:w-full max-[320px]:pt-8 p-0 `}>

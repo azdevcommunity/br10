@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import {z} from "zod";
 import {useToast} from "@/components/ui/use-toast.ts";
 import {useLocation, useNavigate} from "react-router-dom";
+import {RegisterData} from "@/types.ts";
+import {useRegisterUserMutation} from "@/redux/slices/registerStep1.ts";
 
 const registerSchema = z.object({
     phoneNumber: z
@@ -26,6 +28,7 @@ export const RegisterV2 = () => {
     const {toast} = useToast();
     const navigate = useNavigate();
     const location = useLocation();  // To receive any potential data from OTPVerification
+    const [registerUser, {isLoading}] = useRegisterUserMutation();
 
     // Initialize form data, taking into account potential data from OTPVerification
     const initialState = location.state?.formData || {
@@ -35,7 +38,7 @@ export const RegisterV2 = () => {
         confirmPassword: '',
     };
 
-    const [formData, setFormData] = useState(initialState);  // Preload from potential state
+    const [formData, setFormData] = useState<RegisterData>(initialState);  // Preload from potential state
     const [errors, setErrors] = useState<any>({});
 
     // Reset resend attempts when phone number changes in OTPVerification and user comes back
@@ -72,10 +75,17 @@ export const RegisterV2 = () => {
             return;
         }
 
-        setErrors({});  // Clear errors if form is valid
+        setErrors({});
+
+        formData["registerType"] = 1
+
+        const registerResult = await registerUser(formData).unwrap();
+        console.log('User registered:', registerResult);
+
+        localStorage.setItem('registerResult', JSON.stringify(registerResult));
 
         // Redirect to OTPVerification page with form data
-        navigate('/otp-verification', {state: {formData, resetAttempts: true}});
+        navigate('/otp-verification', {state: {registerResult, resetAttempts: true,fromRegister: true}});
     };
 
     return (
@@ -105,7 +115,7 @@ export const RegisterV2 = () => {
                                     >
                                         <input data-testid="signup-usernamefield" id=":r0:"
                                                className={`hover:border-emphasis border-default  placeholder:text-muted
-                                               text-gray-700 placeholder:text-gray-400 focus:ring-brand-default
+                                               text-gray-700 placeholder:text-gray-600 focus:ring-brand-default
                                                focus:border-subtle mb-2 block h-9 rounded-md border px-3 py-2 text-sm
                                                leading-4 transition focus:outline-none focus:ring-2 w-full
                                                disabled:bg-subtle disabled:hover:border-subtle
@@ -142,8 +152,9 @@ export const RegisterV2 = () => {
                                         </div>
                                         <input data-testid="signup-usernamefield" id=":r0:"
                                                placeholder="Telefon nömrəsi"
+
                                                className={`hover:border-emphasis border-default  placeholder:text-muted
-                                               text-gray-700 placeholder:text-gray-400 focus:ring-brand-default
+                                               text-gray-700 placeholder:text-gray-600 focus:ring-brand-default
                                                focus:border-subtle mb-2 block h-9 rounded-md border px-3 py-2 text-sm
                                                leading-4 transition focus:outline-none focus:ring-2 w-full
                                                disabled:bg-subtle disabled:hover:border-subtle
@@ -167,7 +178,7 @@ export const RegisterV2 = () => {
                                      rounded-md transition focus-within:outline-none focus-within:ring-2">
                                     <input data-testid="signup-passwordfield" id=":r2:"
                                            type="password" placeholder="•••••••••••••"
-                                           className={`placeholder:text-gray-300 hover:border-emphasis 
+                                           className={`placeholder:text-gray-600 hover:border-emphasis 
                                             border-default bg-default placeholder:text-muted text-emphasis 
                                             focus:ring-brand-default focus:border-subtle block h-9 rounded-md border 
                                             px-3 py-2 text-sm leading-4 transition focus:outline-none focus:ring-2 
@@ -239,7 +250,7 @@ export const RegisterV2 = () => {
                                      rounded-md transition focus-within:outline-none focus-within:ring-2">
                                     <input data-testid="signup-passwordfield" id=":r2:"
                                            type="password" placeholder="•••••••••••••"
-                                           className={`placeholder:text-gray-300 hover:border-emphasis 
+                                           className={`placeholder:text-gray-600 hover:border-emphasis 
                                            border-default bg-default placeholder:text-muted text-emphasis 
                                            focus:ring-brand-default focus:border-subtle block h-9 rounded-md 
                                            border px-3 py-2 text-sm leading-4 transition focus:outline-none 

@@ -1,7 +1,8 @@
- export type Section = {
+export type Section = {
     name: string;
     path: string;
 };
+
 export interface ColumnMapping {
     sourceColumn: string;
     targetColumn: string;
@@ -26,3 +27,43 @@ export interface UserRegister {
     birthDate?: string;
     gender: string;
 }
+
+export interface RegisterData {
+    confirmPassword: string
+    password:string
+    phoneNumber:string
+    registerType: 1
+    username:string
+}
+
+export type DeviceInfo = {
+    deviceId: string;
+    clientType: number;
+    operatingSystem: string;
+    osVersion: string;
+    appVersion: string;
+    brand: string;
+    model: string;
+};
+
+export type OtpRequest = {
+    otp: number;
+    phoneNumber: string;
+    deviceInfo: DeviceInfo;
+};
+
+export type RegisterResponseData = {
+    id: number;
+    username: string;
+    phoneNumber: string;
+    otp: number;
+    otpExpireDate: number;
+};
+
+export type RegisterResponse = {
+    data: RegisterData;
+    code: number;
+    message: string;
+    activityId: string;
+};
+

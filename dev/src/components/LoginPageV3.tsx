@@ -1,45 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from "@/components/ui/card.tsx";
-import { Label } from "@/components/ui/label.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { z } from 'zod';
-import { useToast } from "@/components/ui/use-toast.ts";
-import { Toaster } from "@/components/ui/toaster.tsx";
-import { SpokeSpinner } from "@/components/SpokeSpinner.tsx";
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/AuthProvider';
+import React, {useState, useEffect} from 'react';
+import {Card, CardContent} from "@/components/ui/card.tsx";
+import {Label} from "@/components/ui/label.tsx";
+import {Input} from "@/components/ui/input.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {z} from 'zod';
+import {useToast} from "@/components/ui/use-toast.ts";
+import {Toaster} from "@/components/ui/toaster.tsx";
+import {SpokeSpinner} from "@/components/SpokeSpinner.tsx";
+import {useNavigate, useLocation} from 'react-router-dom';
+import {useAuth} from '@/AuthProvider';
+import {Link} from "@nextui-org/react";
 
 const loginSchema = z.object({
-    phoneNumber: z.string().min(10, { message: "Telefon nömrəsi ən azı 10 simvol olmalıdır" }),
-    password: z.string().min(4, { message: "Şifrə ən azı 4 simvol olmalıdır" }),
+    phoneNumber: z.string().min(10, {message: "Telefon nömrəsi ən azı 10 simvol olmalıdır"}),
+    password: z.string().min(4, {message: "Şifrə ən azı 4 simvol olmalıdır"}),
 });
 
 export const LoginPageV3: React.FC = () => {
-    const { toast } = useToast();
+    const {toast} = useToast();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<{ phoneNumber?: string; password?: string }>({});
 
-    const { user } = useAuth();
+    const {user} = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const { login } = useAuth();
+    const {login} = useAuth();
 
     const from = location.state?.from?.pathname || "/";
 
     // Kullanıcı zaten login olmuşsa ana sayfaya yönlendir
     useEffect(() => {
         if (user) {
-            navigate('/', { replace: true });
+            navigate('/', {replace: true});
         }
     }, [user, navigate]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const validation = loginSchema.safeParse({ phoneNumber, password });
+        const validation = loginSchema.safeParse({phoneNumber, password});
         if (!validation.success) {
             const fieldErrors = validation.error.format();
             setErrors({
@@ -78,13 +79,13 @@ export const LoginPageV3: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                const { accessToken } = data.data;
+                const {accessToken} = data.data;
 
                 // Tokeni localStorage'a kaydet ve auth context'te kullanıcıyı giriş yapmış olarak işaretle
                 login(accessToken);
 
                 // Başarılı giriş sonrası kullanıcıyı gitmek istediği sayfaya yönlendir
-                navigate(from, { replace: true });
+                navigate(from, {replace: true});
             } else {
                 const errorData = await response.json();
                 toast({
@@ -150,12 +151,20 @@ export const LoginPageV3: React.FC = () => {
                                 focus-visible:ring-cal-button-hover py-2 px-4 rounded-md"
                                 disabled={loading}
                             >
-                                {loading ? <SpokeSpinner /> : "Daxil ol"}
+                                {loading ? <SpokeSpinner/> : "Daxil ol"}
                             </Button>
+                            <div className="text-gray-400 max-[320px]:pb-3 w-full flex justify-end space-x-2">
+                                <span>Hesabın yoxdur?{" "}</span>
+                                <Link
+                                    className={"cursor-pointer hover:underline"}
+                                    onClick={() => navigate("/register")}>
+                                    Qeydiyyatdan keç!
+                                </Link>
+                            </div>
                         </form>
                     </CardContent>
                 </Card>
-                <Toaster />
+                <Toaster/>
             </div>
         </>
     );

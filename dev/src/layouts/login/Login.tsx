@@ -112,7 +112,7 @@ export const Login: React.FC = () => {
                         )}
                     />
                     <Button type="submit" className="font-medium w-full h-12">
-                        Daxil ol
+                        Daxil olsd
                     </Button>
                     <div className="text-gray-400 max-[320px]:pb-3">
                         Hesabın yoxdur?{" "}

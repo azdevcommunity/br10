@@ -12,12 +12,12 @@ interface LoginResponse {
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    tagTypes:["galleries","products"],
+    tagTypes:["galleries","products","auth"],
     baseQuery: fetchBaseQuery({
         baseUrl:import.meta.env.VITE_BR10_API_BASE_URL,
         prepareHeaders: (headers, { getState }) => {
             const token = localStorage.getItem("token");
-            if (token) {
+            if (token !== null) {
                 headers.set('Authorization', `${token}`);
             }
             headers.set('content-type', 'application/json');
